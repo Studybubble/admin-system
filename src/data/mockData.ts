@@ -1,4 +1,3 @@
-
 export type UserType = 'guest' | 'normal';
 export type PaymentStatus = 'free' | 'paid';
 

@@ -1,7 +1,8 @@
+
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DashboardLayout } from '@/components/DashboardLayout';
-import { events } from '@/data/mockData';
+import { events, Event } from '@/data/mockData';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -34,6 +35,12 @@ import {
 } from 'lucide-react';
 import { Badge as UIBadge } from '@/components/ui/badge';
 
+// Adding maxAttendees to simulate event capacity for UI demonstration
+const eventsWithCapacity = events.map(event => ({
+  ...event,
+  maxAttendees: event.id === "1" ? 50 : (event.id === "2" ? 30 : (event.id === "3" ? 25 : 20))
+}));
+
 export function EventsList() {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState<string | undefined>(undefined);
@@ -41,7 +48,7 @@ export function EventsList() {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   
-  const filteredEvents = events.filter(event => {
+  const filteredEvents = eventsWithCapacity.filter(event => {
     const matchesSearch = event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       event.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
       event.location.toLowerCase().includes(searchTerm.toLowerCase());
@@ -183,7 +190,7 @@ export function EventsList() {
                       {event.maxAttendees ? (
                         <span>
                           {event.attendees.length}/{event.maxAttendees}
-                          {event.attendees.length >= (event.maxAttendees || 0) && (
+                          {event.attendees.length >= event.maxAttendees && (
                             <UIBadge className="ml-2 bg-red-500">Full</UIBadge>
                           )}
                         </span>
@@ -230,29 +237,21 @@ export function EventsList() {
                                   <TableCell className="font-medium">{attendee.name}</TableCell>
                                   <TableCell>{attendee.email}</TableCell>
                                   <TableCell>
-                                    {attendee.isVIP ? (
-                                      <UIBadge variant="outline" className="bg-purple-50 text-purple-700 border-purple-200">
-                                        VIP
-                                      </UIBadge>
-                                    ) : (
-                                      <UIBadge variant="outline" className="bg-gray-50 text-gray-700 border-gray-200">
-                                        Regular
-                                      </UIBadge>
-                                    )}
+                                    <UIBadge variant="outline" className={attendee.userType === "guest" ? 
+                                      "bg-purple-50 text-purple-700 border-purple-200" : 
+                                      "bg-gray-50 text-gray-700 border-gray-200"}>
+                                      {attendee.userType === "guest" ? "Guest" : "Normal"}
+                                    </UIBadge>
                                   </TableCell>
-                                  <TableCell>{attendee.registeredOn}</TableCell>
+                                  <TableCell>{new Date(attendee.registeredAt).toLocaleDateString()}</TableCell>
                                   <TableCell>
-                                    {event.isFree ? (
+                                    {attendee.paymentStatus === "free" ? (
                                       <UIBadge variant="outline" className="bg-green-50 text-green-700 border-green-200">
                                         Free
                                       </UIBadge>
-                                    ) : attendee.hasPaid ? (
+                                    ) : (
                                       <UIBadge variant="outline" className="bg-green-50 text-green-700 border-green-200">
                                         Paid
-                                      </UIBadge>
-                                    ) : (
-                                      <UIBadge variant="outline" className="bg-amber-50 text-amber-700 border-amber-200">
-                                        Pending
                                       </UIBadge>
                                     )}
                                   </TableCell>
