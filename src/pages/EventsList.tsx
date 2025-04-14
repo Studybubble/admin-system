@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DashboardLayout } from '@/components/DashboardLayout';
@@ -81,10 +82,9 @@ export function EventsList() {
     return event.maxAttendees !== undefined && event.attendees.length >= event.maxAttendees;
   };
   
-  // Function to format time display
+  // Function to format time display - modified to handle different time formats
   const formatTimeDisplay = (time: string) => {
-    // Check if time contains a range (has a dash)
-    return time.includes('-') ? time : `${time} onwards`;
+    return time;
   };
   
   return (
@@ -150,7 +150,7 @@ export function EventsList() {
             <TableRow>
               <TableHead>Event</TableHead>
               <TableHead>Date</TableHead>
-              <TableHead>Start Time</TableHead>
+              <TableHead>Time</TableHead>
               <TableHead>Location</TableHead>
               <TableHead>Type</TableHead>
               <TableHead>Attendees</TableHead>
