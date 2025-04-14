@@ -1,10 +1,10 @@
 
 import { 
+  LayoutDashboard, 
   CalendarDays, 
-  Home, 
   Users, 
   Plus, 
-  List, 
+  Settings,
   Ticket
 } from "lucide-react";
 import {
@@ -25,7 +25,7 @@ const navItems = [
   {
     title: "Dashboard",
     url: "/",
-    icon: Home,
+    icon: LayoutDashboard,
   },
   {
     title: "Events",
@@ -41,6 +41,11 @@ const navItems = [
     title: "Attendees",
     url: "/attendees",
     icon: Users,
+  },
+  {
+    title: "Settings",
+    url: "/settings",
+    icon: Settings,
   },
 ];
 

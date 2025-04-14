@@ -11,6 +11,16 @@ import EventForm from "./pages/EventForm";
 import AttendeesList from "./pages/AttendeesList";
 import NotFound from "./pages/NotFound";
 
+// Create a placeholder Settings page until it's implemented
+const Settings = () => (
+  <div className="flex min-h-screen items-center justify-center">
+    <div className="text-center">
+      <h1 className="text-2xl font-bold mb-4">Settings</h1>
+      <p className="text-muted-foreground">This page is under construction</p>
+    </div>
+  </div>
+);
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -26,6 +36,7 @@ const App = () => (
           <Route path="/events/create" element={<EventForm />} />
           <Route path="/events/:id/edit" element={<EventForm />} />
           <Route path="/attendees" element={<AttendeesList />} />
+          <Route path="/settings" element={<Settings />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

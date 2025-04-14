@@ -1,8 +1,16 @@
-
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { DashboardLayout } from '@/components/DashboardLayout';
 import { events } from '@/data/mockData';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -11,19 +19,55 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { BadgeCheck, CalendarDays, Edit, MapPin, Search, Trash, Users } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
-import { Badge } from '@/components/ui/badge';
+import {
+  Badge,
+  CalendarDays,
+  ChevronDown,
+  ChevronUp,
+  Edit,
+  Filter,
+  MapPin,
+  Pencil,
+  Search,
+  Trash,
+  Users,
+} from 'lucide-react';
+import { Badge as UIBadge } from '@/components/ui/badge';
 
 export function EventsList() {
   const [searchTerm, setSearchTerm] = useState('');
+  const [filterType, setFilterType] = useState<string | undefined>(undefined);
+  const [expandedEvent, setExpandedEvent] = useState<string | null>(null);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
   
-  const filteredEvents = events.filter(event => 
-    event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    event.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    event.location.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredEvents = events.filter(event => {
+    const matchesSearch = event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      event.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      event.location.toLowerCase().includes(searchTerm.toLowerCase());
+      
+    const matchesType = !filterType || 
+      (filterType === 'free' && event.isFree) || 
+      (filterType === 'paid' && !event.isFree);
+      
+    const eventDate = new Date(event.date);
+    const startDateObj = startDate ? new Date(startDate) : null;
+    const endDateObj = endDate ? new Date(endDate) : null;
+    
+    const matchesDateRange = 
+      (!startDateObj || eventDate >= startDateObj) &&
+      (!endDateObj || eventDate <= endDateObj);
+      
+    return matchesSearch && matchesType && matchesDateRange;
+  });
+  
+  const toggleEventExpansion = (eventId: string) => {
+    if (expandedEvent === eventId) {
+      setExpandedEvent(null);
+    } else {
+      setExpandedEvent(eventId);
+    }
+  };
   
   return (
     <DashboardLayout>
@@ -34,17 +78,215 @@ export function EventsList() {
         </Link>
       </div>
       
-      <div className="relative mb-6">
-        <Search className="absolute left-2.5 top-3 h-4 w-4 text-muted-foreground" />
-        <Input
-          placeholder="Search events..."
-          className="pl-8"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+      <div className="bg-white p-4 rounded-lg shadow-sm mb-6">
+        <div className="flex flex-col md:flex-row gap-4 mb-4">
+          <div className="relative flex-grow">
+            <Search className="absolute left-2.5 top-3 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Search events..."
+              className="pl-8"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+          
+          <div className="flex gap-3 flex-wrap md:flex-nowrap">
+            <Select value={filterType} onValueChange={setFilterType}>
+              <SelectTrigger className="w-[160px]">
+                <div className="flex items-center gap-2">
+                  <Filter className="h-4 w-4" />
+                  <SelectValue placeholder="Event Type" />
+                </div>
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="">All Types</SelectItem>
+                <SelectItem value="free">Free</SelectItem>
+                <SelectItem value="paid">Paid</SelectItem>
+              </SelectContent>
+            </Select>
+            
+            <div className="flex items-center gap-2">
+              <Input
+                type="date"
+                placeholder="Start Date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                className="w-full md:w-[160px]"
+              />
+              <span>to</span>
+              <Input
+                type="date"
+                placeholder="End Date"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                className="w-full md:w-[160px]"
+              />
+            </div>
+          </div>
+        </div>
       </div>
       
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-6">
+      <div className="overflow-x-auto rounded-md border bg-white">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Event</TableHead>
+              <TableHead>Date & Time</TableHead>
+              <TableHead>Location</TableHead>
+              <TableHead>Type</TableHead>
+              <TableHead>Attendees</TableHead>
+              <TableHead>Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {filteredEvents.map((event) => (
+              <>
+                <TableRow 
+                  key={event.id}
+                  className="cursor-pointer hover:bg-muted/50"
+                  onClick={() => toggleEventExpansion(event.id)}
+                >
+                  <TableCell className="font-medium flex items-center gap-2">
+                    {expandedEvent === event.id ? (
+                      <ChevronUp className="h-4 w-4 text-muted-foreground" />
+                    ) : (
+                      <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                    )}
+                    {event.title}
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      <CalendarDays className="h-4 w-4 text-muted-foreground" />
+                      {event.date} • {event.time}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      <MapPin className="h-4 w-4 text-muted-foreground" />
+                      {event.location}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    {event.isFree ? (
+                      <UIBadge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+                        Free
+                      </UIBadge>
+                    ) : (
+                      <UIBadge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+                        Paid
+                      </UIBadge>
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      <Users className="h-4 w-4 text-muted-foreground" />
+                      {event.maxAttendees ? (
+                        <span>
+                          {event.attendees.length}/{event.maxAttendees}
+                          {event.attendees.length >= (event.maxAttendees || 0) && (
+                            <UIBadge className="ml-2 bg-red-500">Full</UIBadge>
+                          )}
+                        </span>
+                      ) : (
+                        <span>{event.attendees.length}</span>
+                      )}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex space-x-2">
+                      <Link to={`/events/${event.id}/edit`}>
+                        <Button variant="ghost" size="icon">
+                          <Pencil className="h-4 w-4" />
+                        </Button>
+                      </Link>
+                      <Button variant="ghost" size="icon">
+                        <Trash className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+                
+                {expandedEvent === event.id && (
+                  <TableRow className="bg-muted/30">
+                    <TableCell colSpan={6} className="p-0">
+                      <div className="p-4">
+                        <h3 className="text-md font-medium mb-3">Registered Attendees</h3>
+                        <div className="bg-white border rounded-md">
+                          <Table>
+                            <TableHeader>
+                              <TableRow>
+                                <TableHead className="w-[50px]">#</TableHead>
+                                <TableHead>Attendee</TableHead>
+                                <TableHead>Email</TableHead>
+                                <TableHead>Type</TableHead>
+                                <TableHead>Registered On</TableHead>
+                                <TableHead>Payment Status</TableHead>
+                              </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                              {event.attendees.map((attendee, index) => (
+                                <TableRow key={attendee.id}>
+                                  <TableCell>{index + 1}</TableCell>
+                                  <TableCell className="font-medium">{attendee.name}</TableCell>
+                                  <TableCell>{attendee.email}</TableCell>
+                                  <TableCell>
+                                    {attendee.isVIP ? (
+                                      <UIBadge variant="outline" className="bg-purple-50 text-purple-700 border-purple-200">
+                                        VIP
+                                      </UIBadge>
+                                    ) : (
+                                      <UIBadge variant="outline" className="bg-gray-50 text-gray-700 border-gray-200">
+                                        Regular
+                                      </UIBadge>
+                                    )}
+                                  </TableCell>
+                                  <TableCell>{attendee.registeredOn}</TableCell>
+                                  <TableCell>
+                                    {event.isFree ? (
+                                      <UIBadge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+                                        Free
+                                      </UIBadge>
+                                    ) : attendee.hasPaid ? (
+                                      <UIBadge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+                                        Paid
+                                      </UIBadge>
+                                    ) : (
+                                      <UIBadge variant="outline" className="bg-amber-50 text-amber-700 border-amber-200">
+                                        Pending
+                                      </UIBadge>
+                                    )}
+                                  </TableCell>
+                                </TableRow>
+                              ))}
+                              {event.attendees.length === 0 && (
+                                <TableRow>
+                                  <TableCell colSpan={6} className="text-center py-4 text-muted-foreground">
+                                    No attendees registered yet
+                                  </TableCell>
+                                </TableRow>
+                              )}
+                            </TableBody>
+                          </Table>
+                        </div>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                )}
+              </>
+            ))}
+            
+            {filteredEvents.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
+                  No events found matching your filters
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+      
+      <div className="hidden grid gap-6 md:grid-cols-2 lg:grid-cols-3 mt-8">
         {filteredEvents.map((event) => (
           <div key={event.id} className="border rounded-lg overflow-hidden bg-card">
             <div className="relative">
@@ -87,59 +329,6 @@ export function EventsList() {
             </div>
           </div>
         ))}
-      </div>
-      
-      <div className="overflow-x-auto rounded-md border">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Event</TableHead>
-              <TableHead>Date & Time</TableHead>
-              <TableHead>Location</TableHead>
-              <TableHead>Type</TableHead>
-              <TableHead>Attendees</TableHead>
-              <TableHead>Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredEvents.map((event) => (
-              <TableRow key={event.id}>
-                <TableCell className="font-medium">{event.title}</TableCell>
-                <TableCell>{event.date} • {event.time}</TableCell>
-                <TableCell>{event.location}</TableCell>
-                <TableCell>
-                  {event.isFree ? (
-                    <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
-                      Free
-                    </Badge>
-                  ) : (
-                    <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
-                      Paid
-                    </Badge>
-                  )}
-                </TableCell>
-                <TableCell>{event.attendees.length}</TableCell>
-                <TableCell>
-                  <div className="flex space-x-2">
-                    <Link to={`/events/${event.id}`}>
-                      <Button variant="ghost" size="icon">
-                        <BadgeCheck className="h-4 w-4" />
-                      </Button>
-                    </Link>
-                    <Link to={`/events/${event.id}/edit`}>
-                      <Button variant="ghost" size="icon">
-                        <Edit className="h-4 w-4" />
-                      </Button>
-                    </Link>
-                    <Button variant="ghost" size="icon">
-                      <Trash className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
       </div>
     </DashboardLayout>
   );
