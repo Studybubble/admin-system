@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DashboardLayout } from '@/components/DashboardLayout';
@@ -82,6 +81,12 @@ export function EventsList() {
     return event.maxAttendees !== undefined && event.attendees.length >= event.maxAttendees;
   };
   
+  // Function to format time display
+  const formatTimeDisplay = (time: string) => {
+    // Check if time contains a range (has a dash)
+    return time.includes('-') ? time : `${time} onwards`;
+  };
+  
   return (
     <DashboardLayout>
       <div className="flex justify-between items-center mb-6">
@@ -145,7 +150,7 @@ export function EventsList() {
             <TableRow>
               <TableHead>Event</TableHead>
               <TableHead>Date</TableHead>
-              <TableHead>Time</TableHead>
+              <TableHead>Start Time</TableHead>
               <TableHead>Location</TableHead>
               <TableHead>Type</TableHead>
               <TableHead>Attendees</TableHead>
@@ -177,7 +182,7 @@ export function EventsList() {
                   <TableCell>
                     <div className="flex items-center gap-2">
                       <Clock className="h-4 w-4 text-muted-foreground" />
-                      {event.time}
+                      {formatTimeDisplay(event.time)}
                     </div>
                   </TableCell>
                   <TableCell>
