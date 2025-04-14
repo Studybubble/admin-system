@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DashboardLayout } from '@/components/DashboardLayout';
@@ -32,6 +31,7 @@ import {
   Search,
   Trash,
   Users,
+  Clock,
 } from 'lucide-react';
 import { Badge as UIBadge } from '@/components/ui/badge';
 
@@ -138,7 +138,8 @@ export function EventsList() {
           <TableHeader>
             <TableRow>
               <TableHead>Event</TableHead>
-              <TableHead>Date & Time</TableHead>
+              <TableHead>Date</TableHead>
+              <TableHead>Time</TableHead>
               <TableHead>Location</TableHead>
               <TableHead>Type</TableHead>
               <TableHead>Attendees</TableHead>
@@ -164,7 +165,13 @@ export function EventsList() {
                   <TableCell>
                     <div className="flex items-center gap-2">
                       <CalendarDays className="h-4 w-4 text-muted-foreground" />
-                      {event.date} • {event.time}
+                      {event.date}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      <Clock className="h-4 w-4 text-muted-foreground" />
+                      {event.time}
                     </div>
                   </TableCell>
                   <TableCell>
