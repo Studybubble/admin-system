@@ -43,7 +43,7 @@ const eventsWithCapacity = events.map(event => ({
 
 export function EventsList() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterType, setFilterType] = useState<string | undefined>(undefined);
+  const [filterType, setFilterType] = useState<string | undefined>("all");
   const [expandedEvent, setExpandedEvent] = useState<string | null>(null);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -53,7 +53,7 @@ export function EventsList() {
       event.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
       event.location.toLowerCase().includes(searchTerm.toLowerCase());
       
-    const matchesType = !filterType || 
+    const matchesType = filterType === "all" || 
       (filterType === 'free' && event.isFree) || 
       (filterType === 'paid' && !event.isFree);
       
@@ -106,7 +106,7 @@ export function EventsList() {
                 </div>
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Types</SelectItem>
+                <SelectItem value="all">All Types</SelectItem>
                 <SelectItem value="free">Free</SelectItem>
                 <SelectItem value="paid">Paid</SelectItem>
               </SelectContent>
