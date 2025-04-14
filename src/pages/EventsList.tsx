@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DashboardLayout } from '@/components/DashboardLayout';
@@ -38,12 +39,12 @@ import { Badge as UIBadge } from '@/components/ui/badge';
 // Adding maxAttendees to simulate event capacity for UI demonstration
 const eventsWithCapacity = events.map(event => ({
   ...event,
-  maxAttendees: event.id === "1" ? 50 : (event.id === "2" ? 30 : (event.id === "3" ? 25 : 20))
+  maxAttendees: event.id === "1" ? 50 : (event.id === "2" ? 30 : (event.id === "3" ? 25 : undefined))
 }));
 
 export function EventsList() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterType, setFilterType] = useState<string | undefined>("all");
+  const [filterType, setFilterType] = useState<string>("all");
   const [expandedEvent, setExpandedEvent] = useState<string | null>(null);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -74,6 +75,11 @@ export function EventsList() {
     } else {
       setExpandedEvent(eventId);
     }
+  };
+  
+  // Function to check if event is at full capacity
+  const isEventFull = (event: Event & { maxAttendees?: number }) => {
+    return event.maxAttendees !== undefined && event.attendees.length >= event.maxAttendees;
   };
   
   return (
@@ -151,7 +157,7 @@ export function EventsList() {
               <>
                 <TableRow 
                   key={event.id}
-                  className="cursor-pointer hover:bg-muted/50"
+                  className={`cursor-pointer hover:bg-muted/50 ${isEventFull(event) ? 'bg-purple-100' : ''}`}
                   onClick={() => toggleEventExpansion(event.id)}
                 >
                   <TableCell className="font-medium flex items-center gap-2">
@@ -195,9 +201,9 @@ export function EventsList() {
                     <div className="flex items-center gap-2">
                       <Users className="h-4 w-4 text-muted-foreground" />
                       {event.maxAttendees ? (
-                        <span>
+                        <span className="flex items-center">
                           {event.attendees.length}/{event.maxAttendees}
-                          {event.attendees.length >= event.maxAttendees && (
+                          {isEventFull(event) && (
                             <UIBadge className="ml-2 bg-red-500">Full</UIBadge>
                           )}
                         </span>
