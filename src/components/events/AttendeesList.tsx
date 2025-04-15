@@ -49,14 +49,16 @@ export function AttendeesList({ attendees }: AttendeesListProps) {
               <>
                 <TableRow 
                   key={attendee.id}
-                  className="cursor-pointer hover:bg-muted/50"
-                  onClick={() => toggleAttendeeExpansion(attendee.id)}
+                  className={`cursor-pointer hover:bg-muted/50 ${attendee.events && attendee.events.length > 0 ? '' : 'cursor-default'}`}
+                  onClick={() => attendee.events && attendee.events.length > 0 && toggleAttendeeExpansion(attendee.id)}
                 >
                   <TableCell className="p-2 w-8">
-                    {expandedAttendees.has(attendee.id) ? (
-                      <ChevronDown className="h-4 w-4 text-muted-foreground" />
-                    ) : (
-                      <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                    {attendee.events && attendee.events.length > 0 && (
+                      expandedAttendees.has(attendee.id) ? (
+                        <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                      ) : (
+                        <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                      )
                     )}
                   </TableCell>
                   <TableCell className="font-medium flex items-center gap-2">
@@ -87,7 +89,7 @@ export function AttendeesList({ attendees }: AttendeesListProps) {
                   <TableCell>{new Date(attendee.registeredAt).toLocaleDateString()}</TableCell>
                 </TableRow>
                 
-                {expandedAttendees.has(attendee.id) && (
+                {expandedAttendees.has(attendee.id) && attendee.events && attendee.events.length > 0 && (
                   <TableRow className="bg-muted/20">
                     <TableCell colSpan={6} className="py-2 px-4">
                       {/* Removed the additional text */}
@@ -109,3 +111,4 @@ export function AttendeesList({ attendees }: AttendeesListProps) {
     </div>
   );
 }
+
