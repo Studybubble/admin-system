@@ -298,85 +298,40 @@ export function AttendeesList() {
               </TableRow>
             ) : (
               filteredAttendees.map((attendee) => (
-                <>
-                  <TableRow 
-                    key={attendee.id}
-                    className="cursor-pointer hover:bg-muted/50"
-                    onClick={() => toggleAttendeeExpansion(attendee.id)}
-                  >
-                    <TableCell className="p-2 w-8">
-                      {expandedAttendees.has(attendee.id) ? (
-                        <ChevronDown className="h-4 w-4 text-muted-foreground" />
-                      ) : (
-                        <ChevronRight className="h-4 w-4 text-muted-foreground" />
-                      )}
-                    </TableCell>
-                    <TableCell className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                        <User className="h-4 w-4 text-primary" />
-                      </div>
-                      <span className="font-medium">{attendee.name}</span>
-                    </TableCell>
-                    <TableCell>
-                      {attendee.userType === "normal" ? `@${attendee.name.toLowerCase().split(' ').join('_')}` : "-"}
-                    </TableCell>
-                    <TableCell>{attendee.email}</TableCell>
-                    <TableCell>
-                      <Badge variant="outline" className={attendee.userType === 'guest' 
-                        ? "bg-purple-50 text-purple-700 border-purple-200" 
-                        : "bg-blue-50 text-blue-700 border-blue-200"}>
-                        {attendee.userType === 'guest' ? 'Guest' : 'Normal'}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant="outline" className={attendee.paymentStatus === 'free' 
-                        ? "bg-green-50 text-green-700 border-green-200" 
-                        : "bg-amber-50 text-amber-700 border-amber-200"}>
-                        {attendee.paymentStatus === 'free' ? 'Free' : 'Paid'}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>{new Date(attendee.registeredAt).toLocaleDateString()}</TableCell>
-                    <TableCell>
-                      <Badge variant="secondary">{attendee.events.length}</Badge>
-                    </TableCell>
-                  </TableRow>
-                  
-                  {expandedAttendees.has(attendee.id) && (
-                    <TableRow>
-                      <TableCell colSpan={8} className="bg-muted/20 p-0">
-                        <div className="px-6 py-4">
-                          <h4 className="text-sm font-medium mb-2">Registered Events</h4>
-                          <div className="grid gap-3">
-                            {attendee.events.map((event) => (
-                              <Card key={`${attendee.id}-${event.id}`} className="overflow-hidden">
-                                <CardContent className="p-3 flex justify-between items-center">
-                                  <div className="flex gap-3 items-center">
-                                    <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
-                                      <CalendarDays className="h-4 w-4 text-blue-600" />
-                                    </div>
-                                    <div>
-                                      <span className="font-medium text-sm">
-                                        {event.title}
-                                      </span>
-                                      <p className="text-xs text-muted-foreground">
-                                        {new Date(event.date).toLocaleDateString()}
-                                      </p>
-                                    </div>
-                                  </div>
-                                  <Badge variant="outline" className={event.isFree 
-                                    ? "bg-green-50 text-green-700 border-green-200" 
-                                    : "bg-amber-50 text-amber-700 border-amber-200"}>
-                                    {event.isFree ? 'Free' : `$${event.price}`}
-                                  </Badge>
-                                </CardContent>
-                              </Card>
-                            ))}
-                          </div>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  )}
-                </>
+                <TableRow key={attendee.id}>
+                  <TableCell className="p-2 w-8"></TableCell>
+                  <TableCell className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                      <User className="h-4 w-4 text-primary" />
+                    </div>
+                    <span className="font-medium">{attendee.name}</span>
+                  </TableCell>
+                  <TableCell>
+                    {attendee.userType === "normal" ? `@${attendee.name.toLowerCase().split(' ').join('_')}` : "-"}
+                  </TableCell>
+                  <TableCell>{attendee.email}</TableCell>
+                  <TableCell>
+                    <Badge 
+                      variant="outline" 
+                      className={attendee.userType === 'guest' 
+                        ? "bg-purple-50 text-purple-700 border-purple-200 rounded-full px-3 py-1" 
+                        : "bg-blue-50 text-blue-700 border-blue-200 rounded-full px-3 py-1"}
+                    >
+                      {attendee.userType === 'guest' ? 'Guest' : 'Normal'}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>
+                    <Badge variant="outline" className={attendee.paymentStatus === 'free' 
+                      ? "bg-green-50 text-green-700 border-green-200" 
+                      : "bg-amber-50 text-amber-700 border-amber-200"}>
+                      {attendee.paymentStatus === 'free' ? 'Free' : 'Paid'}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>{new Date(attendee.registeredAt).toLocaleDateString()}</TableCell>
+                  <TableCell>
+                    <Badge variant="secondary">{attendee.events.length}</Badge>
+                  </TableCell>
+                </TableRow>
               ))
             )}
           </TableBody>

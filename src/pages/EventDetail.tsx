@@ -1,4 +1,3 @@
-
 import { DashboardLayout } from '@/components/DashboardLayout';
 import { events } from '@/data/mockData';
 import { Button } from "@/components/ui/button";
@@ -220,9 +219,12 @@ function AttendeeTable({ attendees }) {
                 <TableCell className="font-medium">{attendee.name}</TableCell>
                 <TableCell>{attendee.email}</TableCell>
                 <TableCell>
-                  <Badge variant="outline" className={attendee.userType === 'guest' 
-                    ? "bg-purple-50 text-purple-700 border-purple-200" 
-                    : "bg-blue-50 text-blue-700 border-blue-200"}>
+                  <Badge 
+                    variant="outline" 
+                    className={attendee.userType === 'guest' 
+                      ? "bg-purple-50 text-purple-700 border-purple-200 rounded-full px-3 py-1" 
+                      : "bg-blue-50 text-blue-700 border-blue-200 rounded-full px-3 py-1"}
+                  >
                     {attendee.userType === 'guest' ? 'Guest' : 'Normal'}
                   </Badge>
                 </TableCell>

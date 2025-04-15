@@ -1,4 +1,3 @@
-
 import { Attendee } from "@/data/mockData";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -69,9 +68,12 @@ export function AttendeesList({ attendees }: AttendeesListProps) {
                   <TableCell>{attendee.userType === "normal" ? `@${attendee.name.toLowerCase().split(' ').join('_')}` : "-"}</TableCell>
                   <TableCell>{attendee.email}</TableCell>
                   <TableCell>
-                    <Badge variant="outline" className={attendee.userType === "guest" ? 
-                      "bg-purple-50 text-purple-700 border-purple-200" : 
-                      "bg-gray-50 text-gray-700 border-gray-200"}>
+                    <Badge 
+                      variant="outline" 
+                      className={attendee.userType === "guest" ? 
+                        "bg-purple-50 text-purple-700 border-purple-200 rounded-full px-3 py-1" : 
+                        "bg-gray-50 text-gray-700 border-gray-200 rounded-full px-3 py-1"}
+                    >
                       {attendee.userType === "guest" ? "Guest" : "Normal"}
                     </Badge>
                   </TableCell>
