@@ -1,3 +1,4 @@
+
 export type UserType = 'guest' | 'normal';
 export type PaymentStatus = 'free' | 'paid';
 
@@ -71,6 +72,14 @@ export const events: Event[] = [
     imageUrl: "/placeholder.svg",
     isFree: true,
     attendees: [
+      {
+        id: "a1", // Same ID as John Doe from first event
+        name: "John Doe",
+        email: "john@example.com",
+        userType: "normal",
+        paymentStatus: "free",
+        registeredAt: "2025-06-25T11:45:00Z"
+      },
       {
         id: "a4",
         name: "Sarah Williams",

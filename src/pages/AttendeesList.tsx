@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { DashboardLayout } from '@/components/DashboardLayout';
 import { events } from '@/data/mockData';

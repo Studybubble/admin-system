@@ -32,10 +32,10 @@ export function AttendeesList({ attendees, events = [] }: AttendeesListProps) {
   };
 
   // Find events for each attendee
-  const getEventForAttendee = (attendeeId: string) => {
-    if (!events || events.length === 0) return null;
+  const getEventsForAttendee = (attendeeId: string) => {
+    if (!events || events.length === 0) return [];
     
-    return events.find(event => 
+    return events.filter(event => 
       event.attendees.some(a => a.id === attendeeId)
     );
   };
@@ -108,14 +108,26 @@ export function AttendeesList({ attendees, events = [] }: AttendeesListProps) {
                       <div className="pl-8">
                         <p className="text-sm font-medium mb-2">Registered Events:</p>
                         <div className="space-y-2">
-                          {getEventForAttendee(attendee.id) ? (
-                            <div className="flex items-center gap-2 text-sm bg-white p-2 rounded border">
-                              <Calendar className="h-4 w-4 text-primary" />
-                              <span>{getEventForAttendee(attendee.id)?.title}</span>
-                              <span className="text-xs text-muted-foreground">
-                                ({getEventForAttendee(attendee.id)?.date})
-                              </span>
-                            </div>
+                          {getEventsForAttendee(attendee.id).length > 0 ? (
+                            getEventsForAttendee(attendee.id).map((event, index) => (
+                              <div key={index} className="flex items-center gap-2 text-sm bg-white p-2 rounded border">
+                                <Calendar className="h-4 w-4 text-primary" />
+                                <span>{event.title}</span>
+                                <span className="text-xs text-muted-foreground">
+                                  ({event.date})
+                                </span>
+                                {!event.isFree && (
+                                  <Badge variant="outline" className="ml-auto bg-amber-50 text-amber-700 border-amber-200">
+                                    ${event.price}
+                                  </Badge>
+                                )}
+                                {event.isFree && (
+                                  <Badge variant="outline" className="ml-auto bg-green-50 text-green-700 border-green-200">
+                                    Free
+                                  </Badge>
+                                )}
+                              </div>
+                            ))
                           ) : (
                             <p className="text-sm text-muted-foreground">No event information available</p>
                           )}
