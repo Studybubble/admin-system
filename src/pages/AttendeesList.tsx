@@ -18,7 +18,9 @@ import {
   User,
   CalendarDays,
   Filter,
-  ArrowUpDown
+  ArrowUpDown,
+  ChevronDown,
+  ChevronRight
 } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -29,17 +31,48 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Card, CardContent } from "@/components/ui/card";
 
-// Collect all attendees from all events
-const allAttendees = events.flatMap(event => 
-  event.attendees.map(attendee => ({
-    ...attendee,
-    eventId: event.id,
-    eventTitle: event.title,
-    eventDate: event.date,
-    isFreeEvent: event.isFree
-  }))
-);
+// Process attendees data to group by unique users
+const processAttendeeData = () => {
+  // Track unique attendees by email
+  const uniqueAttendees = new Map();
+  
+  events.forEach(event => {
+    event.attendees.forEach(attendee => {
+      const key = attendee.email;
+      
+      if (!uniqueAttendees.has(key)) {
+        // Create new attendee entry with events array
+        uniqueAttendees.set(key, {
+          ...attendee,
+          events: [{
+            id: event.id,
+            title: event.title,
+            date: event.date,
+            isFree: event.isFree,
+            price: event.price
+          }]
+        });
+      } else {
+        // Add this event to existing attendee
+        const existingAttendee = uniqueAttendees.get(key);
+        existingAttendee.events.push({
+          id: event.id,
+          title: event.title,
+          date: event.date,
+          isFree: event.isFree,
+          price: event.price
+        });
+        uniqueAttendees.set(key, existingAttendee);
+      }
+    });
+  });
+  
+  return Array.from(uniqueAttendees.values());
+};
+
+const allAttendees = processAttendeeData();
 
 export function AttendeesList() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -47,6 +80,7 @@ export function AttendeesList() {
   const [paymentFilter, setPaymentFilter] = useState<string | null>(null);
   const [sortField, setSortField] = useState<string | null>(null);
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  const [expandedAttendees, setExpandedAttendees] = useState<Set<string>>(new Set());
   
   const handleSort = (field: string) => {
     if (sortField === field) {
@@ -57,11 +91,20 @@ export function AttendeesList() {
     }
   };
   
-  // Filter and sort attendees
+  const toggleAttendeeExpansion = (attendeeId: string) => {
+    const newExpanded = new Set(expandedAttendees);
+    if (newExpanded.has(attendeeId)) {
+      newExpanded.delete(attendeeId);
+    } else {
+      newExpanded.add(attendeeId);
+    }
+    setExpandedAttendees(newExpanded);
+  };
+  
+  // Filter attendees
   let filteredAttendees = allAttendees.filter(attendee => 
     (attendee.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-     attendee.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-     attendee.eventTitle.toLowerCase().includes(searchTerm.toLowerCase())) &&
+     attendee.email.toLowerCase().includes(searchTerm.toLowerCase())) &&
     (userTypeFilter === null || attendee.userType === userTypeFilter) &&
     (paymentFilter === null || attendee.paymentStatus === paymentFilter)
   );
@@ -193,6 +236,7 @@ export function AttendeesList() {
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead className="w-8"></TableHead>
               <TableHead>
                 <div 
                   className="flex items-center cursor-pointer" 
@@ -211,17 +255,6 @@ export function AttendeesList() {
                 >
                   Email
                   {sortField === 'email' && (
-                    <ArrowUpDown className={`ml-1 h-4 w-4 ${sortDirection === 'asc' ? 'transform rotate-180' : ''}`} />
-                  )}
-                </div>
-              </TableHead>
-              <TableHead>
-                <div 
-                  className="flex items-center cursor-pointer" 
-                  onClick={() => handleSort('eventTitle')}
-                >
-                  Event
-                  {sortField === 'eventTitle' && (
                     <ArrowUpDown className={`ml-1 h-4 w-4 ${sortDirection === 'asc' ? 'transform rotate-180' : ''}`} />
                   )}
                 </div>
@@ -259,47 +292,97 @@ export function AttendeesList() {
                   )}
                 </div>
               </TableHead>
+              <TableHead>Events Count</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {filteredAttendees.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
+                <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
                   No attendees found matching the current filters
                 </TableCell>
               </TableRow>
             ) : (
               filteredAttendees.map((attendee) => (
-                <TableRow key={attendee.id}>
-                  <TableCell className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                      <User className="h-4 w-4 text-primary" />
-                    </div>
-                    <span className="font-medium">{attendee.name}</span>
-                  </TableCell>
-                  <TableCell>{attendee.email}</TableCell>
-                  <TableCell>
-                    <Link to={`/events/${attendee.eventId}`} className="flex items-center gap-2 hover:underline">
-                      <span>{attendee.eventTitle}</span>
-                      <CalendarDays className="h-4 w-4 text-muted-foreground" />
-                    </Link>
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant="outline" className={attendee.userType === 'guest' 
-                      ? "bg-purple-50 text-purple-700 border-purple-200" 
-                      : "bg-blue-50 text-blue-700 border-blue-200"}>
-                      {attendee.userType === 'guest' ? 'Guest' : 'Normal'}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant="outline" className={attendee.paymentStatus === 'free' 
-                      ? "bg-green-50 text-green-700 border-green-200" 
-                      : "bg-amber-50 text-amber-700 border-amber-200"}>
-                      {attendee.paymentStatus === 'free' ? 'Free' : 'Paid'}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>{new Date(attendee.registeredAt).toLocaleDateString()}</TableCell>
-                </TableRow>
+                <>
+                  <TableRow 
+                    key={attendee.id}
+                    className="cursor-pointer hover:bg-muted/50"
+                    onClick={() => toggleAttendeeExpansion(attendee.id)}
+                  >
+                    <TableCell className="p-2 w-8">
+                      {expandedAttendees.has(attendee.id) ? (
+                        <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                      ) : (
+                        <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                      )}
+                    </TableCell>
+                    <TableCell className="flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                        <User className="h-4 w-4 text-primary" />
+                      </div>
+                      <span className="font-medium">{attendee.name}</span>
+                    </TableCell>
+                    <TableCell>{attendee.email}</TableCell>
+                    <TableCell>
+                      <Badge variant="outline" className={attendee.userType === 'guest' 
+                        ? "bg-purple-50 text-purple-700 border-purple-200" 
+                        : "bg-blue-50 text-blue-700 border-blue-200"}>
+                        {attendee.userType === 'guest' ? 'Guest' : 'Normal'}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="outline" className={attendee.paymentStatus === 'free' 
+                        ? "bg-green-50 text-green-700 border-green-200" 
+                        : "bg-amber-50 text-amber-700 border-amber-200"}>
+                        {attendee.paymentStatus === 'free' ? 'Free' : 'Paid'}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>{new Date(attendee.registeredAt).toLocaleDateString()}</TableCell>
+                    <TableCell>
+                      <Badge variant="secondary">{attendee.events.length}</Badge>
+                    </TableCell>
+                  </TableRow>
+                  
+                  {expandedAttendees.has(attendee.id) && (
+                    <TableRow>
+                      <TableCell colSpan={7} className="bg-muted/20 p-0">
+                        <div className="px-6 py-4">
+                          <h4 className="text-sm font-medium mb-2">Registered Events</h4>
+                          <div className="grid gap-3">
+                            {attendee.events.map((event) => (
+                              <Card key={`${attendee.id}-${event.id}`} className="overflow-hidden">
+                                <CardContent className="p-3 flex justify-between items-center">
+                                  <div className="flex gap-3 items-center">
+                                    <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
+                                      <CalendarDays className="h-4 w-4 text-blue-600" />
+                                    </div>
+                                    <div>
+                                      <Link 
+                                        to={`/events/${event.id}`} 
+                                        className="font-medium hover:underline text-sm"
+                                      >
+                                        {event.title}
+                                      </Link>
+                                      <p className="text-xs text-muted-foreground">
+                                        {new Date(event.date).toLocaleDateString()}
+                                      </p>
+                                    </div>
+                                  </div>
+                                  <Badge variant="outline" className={event.isFree 
+                                    ? "bg-green-50 text-green-700 border-green-200" 
+                                    : "bg-amber-50 text-amber-700 border-amber-200"}>
+                                    {event.isFree ? 'Free' : `$${event.price}`}
+                                  </Badge>
+                                </CardContent>
+                              </Card>
+                            ))}
+                          </div>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </>
               ))
             )}
           </TableBody>
@@ -310,3 +393,4 @@ export function AttendeesList() {
 }
 
 export default AttendeesList;
+
