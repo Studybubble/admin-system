@@ -44,7 +44,7 @@ const AvatarFallback = React.forwardRef<
     )}
     {...props}
   >
-    {children || <User className="h-5 w-5" />}
+    {children || <User className="h-4 w-4" />}
   </AvatarPrimitive.Fallback>
 ))
 AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName

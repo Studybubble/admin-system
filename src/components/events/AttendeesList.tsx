@@ -1,4 +1,5 @@
-import { Attendee } from "@/data/mockData";
+
+import { Attendee, Event } from "@/data/mockData";
 import { Badge } from "@/components/ui/badge";
 import {
   Table,
@@ -9,13 +10,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useState } from "react";
-import { ChevronDown, ChevronRight, User } from "lucide-react";
+import { ChevronDown, ChevronRight, Calendar } from "lucide-react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 interface AttendeesListProps {
   attendees: Attendee[];
+  events?: Event[];
 }
 
-export function AttendeesList({ attendees }: AttendeesListProps) {
+export function AttendeesList({ attendees, events = [] }: AttendeesListProps) {
   const [expandedAttendees, setExpandedAttendees] = useState<Set<string>>(new Set());
   
   const toggleAttendeeExpansion = (attendeeId: string) => {
@@ -26,6 +29,15 @@ export function AttendeesList({ attendees }: AttendeesListProps) {
       newExpanded.add(attendeeId);
     }
     setExpandedAttendees(newExpanded);
+  };
+
+  // Find events for each attendee
+  const getEventForAttendee = (attendeeId: string) => {
+    if (!events || events.length === 0) return null;
+    
+    return events.find(event => 
+      event.attendees.some(a => a.id === attendeeId)
+    );
   };
   
   return (
@@ -45,10 +57,9 @@ export function AttendeesList({ attendees }: AttendeesListProps) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {attendees.map((attendee, index) => (
-              <>
+            {attendees.map((attendee) => (
+              <React.Fragment key={attendee.id}>
                 <TableRow 
-                  key={attendee.id}
                   className="cursor-pointer hover:bg-muted/50"
                   onClick={() => toggleAttendeeExpansion(attendee.id)}
                 >
@@ -59,10 +70,10 @@ export function AttendeesList({ attendees }: AttendeesListProps) {
                       <ChevronRight className="h-4 w-4 text-muted-foreground" />
                     )}
                   </TableCell>
-                  <TableCell className="font-medium flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center">
-                      <User className="h-3 w-3 text-primary" />
-                    </div>
+                  <TableCell className="font-medium flex items-center gap-3">
+                    <Avatar className="h-8 w-8">
+                      <AvatarFallback />
+                    </Avatar>
                     {attendee.name}
                   </TableCell>
                   <TableCell>{attendee.userType === "normal" ? `@${attendee.name.toLowerCase().split(' ').join('_')}` : "-"}</TableCell>
@@ -94,11 +105,26 @@ export function AttendeesList({ attendees }: AttendeesListProps) {
                 {expandedAttendees.has(attendee.id) && (
                   <TableRow className="bg-muted/20">
                     <TableCell colSpan={7} className="py-2 px-4">
-                      {/* No additional content */}
+                      <div className="pl-8">
+                        <p className="text-sm font-medium mb-2">Registered Events:</p>
+                        <div className="space-y-2">
+                          {getEventForAttendee(attendee.id) ? (
+                            <div className="flex items-center gap-2 text-sm bg-white p-2 rounded border">
+                              <Calendar className="h-4 w-4 text-primary" />
+                              <span>{getEventForAttendee(attendee.id)?.title}</span>
+                              <span className="text-xs text-muted-foreground">
+                                ({getEventForAttendee(attendee.id)?.date})
+                              </span>
+                            </div>
+                          ) : (
+                            <p className="text-sm text-muted-foreground">No event information available</p>
+                          )}
+                        </div>
+                      </div>
                     </TableCell>
                   </TableRow>
                 )}
-              </>
+              </React.Fragment>
             ))}
             {attendees.length === 0 && (
               <TableRow>

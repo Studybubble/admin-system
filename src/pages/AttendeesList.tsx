@@ -14,15 +14,13 @@ import { Badge } from "@/components/ui/badge";
 import {
   DownloadIcon,
   Search,
-  User,
-  CalendarDays,
   Filter,
   ArrowUpDown,
   ChevronDown,
-  ChevronRight
+  ChevronRight,
+  Calendar
 } from 'lucide-react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -30,7 +28,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Card, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 const processAttendeeData = () => {
   const uniqueAttendees = new Map();
@@ -298,40 +296,84 @@ export function AttendeesList() {
               </TableRow>
             ) : (
               filteredAttendees.map((attendee) => (
-                <TableRow key={attendee.id}>
-                  <TableCell className="p-2 w-8"></TableCell>
-                  <TableCell className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                      <User className="h-4 w-4 text-primary" />
-                    </div>
-                    <span className="font-medium">{attendee.name}</span>
-                  </TableCell>
-                  <TableCell>
-                    {attendee.userType === "normal" ? `@${attendee.name.toLowerCase().split(' ').join('_')}` : "-"}
-                  </TableCell>
-                  <TableCell>{attendee.email}</TableCell>
-                  <TableCell>
-                    <Badge 
-                      variant="outline" 
-                      className={attendee.userType === 'guest' 
-                        ? "bg-purple-50 text-purple-700 border-purple-200 rounded-full px-3 py-1" 
-                        : "bg-blue-50 text-blue-700 border-blue-200 rounded-full px-3 py-1"}
-                    >
-                      {attendee.userType === 'guest' ? 'Guest' : 'Normal'}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant="outline" className={attendee.paymentStatus === 'free' 
-                      ? "bg-green-50 text-green-700 border-green-200" 
-                      : "bg-amber-50 text-amber-700 border-amber-200"}>
-                      {attendee.paymentStatus === 'free' ? 'Free' : 'Paid'}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>{new Date(attendee.registeredAt).toLocaleDateString()}</TableCell>
-                  <TableCell>
-                    <Badge variant="secondary">{attendee.events.length}</Badge>
-                  </TableCell>
-                </TableRow>
+                <React.Fragment key={attendee.id}>
+                  <TableRow 
+                    className="cursor-pointer hover:bg-muted/50"
+                    onClick={() => toggleAttendeeExpansion(attendee.id)}
+                  >
+                    <TableCell className="p-2 w-8">
+                      {expandedAttendees.has(attendee.id) ? (
+                        <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                      ) : (
+                        <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                      )}
+                    </TableCell>
+                    <TableCell className="flex items-center gap-3">
+                      <Avatar className="h-8 w-8">
+                        <AvatarFallback />
+                      </Avatar>
+                      <span className="font-medium">{attendee.name}</span>
+                    </TableCell>
+                    <TableCell>
+                      {attendee.userType === "normal" ? `@${attendee.name.toLowerCase().split(' ').join('_')}` : "-"}
+                    </TableCell>
+                    <TableCell>{attendee.email}</TableCell>
+                    <TableCell>
+                      <Badge 
+                        variant="outline" 
+                        className={attendee.userType === 'guest' 
+                          ? "bg-purple-50 text-purple-700 border-purple-200 rounded-full px-3 py-1" 
+                          : "bg-blue-50 text-blue-700 border-blue-200 rounded-full px-3 py-1"}
+                      >
+                        {attendee.userType === 'guest' ? 'Guest' : 'Normal'}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="outline" className={attendee.paymentStatus === 'free' 
+                        ? "bg-green-50 text-green-700 border-green-200" 
+                        : "bg-amber-50 text-amber-700 border-amber-200"}>
+                        {attendee.paymentStatus === 'free' ? 'Free' : 'Paid'}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>{new Date(attendee.registeredAt).toLocaleDateString()}</TableCell>
+                    <TableCell>
+                      <Badge variant="secondary">{attendee.events?.length || 0}</Badge>
+                    </TableCell>
+                  </TableRow>
+                  
+                  {expandedAttendees.has(attendee.id) && (
+                    <TableRow className="bg-muted/20">
+                      <TableCell colSpan={8} className="py-2 px-4">
+                        <div className="pl-8">
+                          <p className="text-sm font-medium mb-2">Registered Events:</p>
+                          <div className="space-y-2">
+                            {attendee.events && attendee.events.length > 0 ? (
+                              attendee.events.map((event, index) => (
+                                <div key={index} className="flex items-center gap-2 text-sm bg-white p-2 rounded border">
+                                  <Calendar className="h-4 w-4 text-primary" />
+                                  <span className="font-medium">{event.title}</span>
+                                  <span className="text-xs text-muted-foreground">({event.date})</span>
+                                  {!event.isFree && (
+                                    <Badge variant="outline" className="ml-auto bg-amber-50 text-amber-700 border-amber-200">
+                                      ${event.price}
+                                    </Badge>
+                                  )}
+                                  {event.isFree && (
+                                    <Badge variant="outline" className="ml-auto bg-green-50 text-green-700 border-green-200">
+                                      Free
+                                    </Badge>
+                                  )}
+                                </div>
+                              ))
+                            ) : (
+                              <p className="text-sm text-muted-foreground">No events found</p>
+                            )}
+                          </div>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </React.Fragment>
               ))
             )}
           </TableBody>
