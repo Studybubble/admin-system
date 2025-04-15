@@ -37,7 +37,7 @@ export function EventDateTimeInputs({
                   !date && "text-muted-foreground"
                 )}
               >
-                <CalendarIcon className="mr-2 h-4 w-4" />
+                <CalendarIcon className="mr-2 h-4 w-4 text-purple-500" />
                 {date ? format(date, "PPP") : "Select date"}
               </Button>
             </PopoverTrigger>
@@ -63,7 +63,8 @@ export function EventDateTimeInputs({
             className={cn(
               "focus:border-purple-500 focus:ring-purple-500 focus:ring-2 focus:ring-opacity-50",
               "hover:border-purple-400",
-              "text-purple-700"
+              "text-purple-700",
+              "focus:text-purple-900"
             )}
             required
           />
@@ -81,7 +82,8 @@ export function EventDateTimeInputs({
           className={cn(
             "focus:border-purple-500 focus:ring-purple-500 focus:ring-2 focus:ring-opacity-50",
             "hover:border-purple-400",
-            "text-purple-700"
+            "text-purple-700",
+            "focus:text-purple-900"
           )}
         />
       </div>
