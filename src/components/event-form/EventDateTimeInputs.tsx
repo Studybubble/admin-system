@@ -61,8 +61,9 @@ export function EventDateTimeInputs({
             value={startTime}
             onChange={onInputChange}
             className={cn(
-              "focus:ring-purple-500 focus:border-purple-500 focus:ring-2 focus:ring-opacity-50",
-              "hover:border-purple-400"
+              "focus:border-purple-500 focus:ring-purple-500 focus:ring-2 focus:ring-opacity-50",
+              "hover:border-purple-400",
+              "text-purple-700"
             )}
             required
           />
@@ -78,12 +79,12 @@ export function EventDateTimeInputs({
           value={endTime}
           onChange={onInputChange}
           className={cn(
-            "focus:ring-purple-500 focus:border-purple-500 focus:ring-2 focus:ring-opacity-50",
-            "hover:border-purple-400"
+            "focus:border-purple-500 focus:ring-purple-500 focus:ring-2 focus:ring-opacity-50",
+            "hover:border-purple-400",
+            "text-purple-700"
           )}
         />
       </div>
     </>
   );
 }
-
