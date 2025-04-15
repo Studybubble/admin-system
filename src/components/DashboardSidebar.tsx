@@ -53,17 +53,16 @@ const navItems = [
 
 export function DashboardSidebar() {
   const handleSignOut = () => {
-    // In a real app, this would handle authentication signout
     console.log("Sign out clicked");
   };
 
   return (
-    <Sidebar className="bg-gradient-to-b from-lavender-100 via-lavender-100 to-lavender-50">
+    <Sidebar className="bg-gradient-to-b from-purple-50 via-purple-100 to-purple-200">
       <SidebarHeader>
         <div className="flex items-center justify-start px-4 py-2">
           <div className="flex items-center gap-2">
             <Avatar className="h-8 w-8 mr-2">
-              <AvatarFallback className="bg-primary text-primary-foreground">
+              <AvatarFallback className="bg-purple-200 text-purple-700">
                 <User className="h-5 w-5" />
               </AvatarFallback>
             </Avatar>
@@ -73,7 +72,7 @@ export function DashboardSidebar() {
             <Button 
               variant="ghost" 
               size="icon" 
-              className="text-muted-foreground ml-auto"
+              className="text-purple-500 hover:bg-purple-100 ml-auto"
               onClick={handleSignOut}
             >
               <LogOut className="h-4 w-4" />
@@ -81,7 +80,7 @@ export function DashboardSidebar() {
           </div>
         </div>
       </SidebarHeader>
-      <SidebarContent className="bg-gradient-to-b from-lavender-100 via-lavender-100 to-lavender-50">
+      <SidebarContent className="bg-gradient-to-b from-purple-50 via-purple-100 to-purple-200">
         <SidebarGroup>
           <SidebarGroupLabel>Main Menu</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -100,8 +99,8 @@ export function DashboardSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="bg-gradient-to-b from-lavender-100 via-lavender-100 to-lavender-50">
-        <div className="px-4 py-2 text-xs text-muted-foreground">
+      <SidebarFooter className="bg-gradient-to-b from-purple-50 via-purple-100 to-purple-200">
+        <div className="px-4 py-2 text-xs text-purple-700">
           Events Admin Dashboard v1.0
         </div>
       </SidebarFooter>

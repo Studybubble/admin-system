@@ -13,8 +13,8 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 252 56% 57%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 270 56% 57%;
+    --primary-foreground: 0 0% 98%;
 
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
@@ -42,6 +42,10 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 270 85% 95%; /* Light lavender for borders */
     --sidebar-ring: 270 91.2% 59.8%;
+
+    --light-purple-50: 270 100% 97%;
+    --light-purple-100: 270 80% 95%;
+    --light-purple-200: 270 70% 90%;
   }
 
   .dark {
