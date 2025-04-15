@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Attendee } from "@/data/mockData";
 import {
@@ -138,7 +139,7 @@ export function AttendeesTable({
                     <Badge 
                       variant="outline" 
                       className={attendee.userType === 'guest' 
-                        ? "bg-purple-50 text-[#7E69AB] border-purple-200 rounded-full px-3 py-1" 
+                        ? "bg-purple-50 text-[#333333] border-purple-200 rounded-full px-3 py-1" 
                         : "bg-blue-50 text-blue-700 border-blue-200 rounded-full px-3 py-1"}
                     >
                       {attendee.userType === 'guest' ? 'Guest' : 'Normal'}
