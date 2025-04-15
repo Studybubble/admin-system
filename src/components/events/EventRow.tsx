@@ -1,4 +1,3 @@
-
 import { Event } from "@/data/mockData";
 import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
@@ -62,7 +61,7 @@ export function EventRow({ event, isExpanded, onToggleExpand }: EventRowProps) {
           {event.isFree ? (
             "-"
           ) : (
-            <span className="font-medium">${event.price?.toFixed(2) || "0.00"}</span>
+            <span className="font-medium">£{event.price?.toFixed(2) || "0.00"}</span>
           )}
         </TableCell>
         <TableCell>

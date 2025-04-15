@@ -63,42 +63,6 @@ export const events: Event[] = [
     ]
   },
   {
-    id: "2",
-    title: "Community Hackathon",
-    description: "A weekend of coding, collaboration, and creating innovative solutions to real-world problems.",
-    date: "2025-07-22",
-    time: "10:00 - 18:00",
-    location: "Innovation Hub, Seattle",
-    imageUrl: "/placeholder.svg",
-    isFree: true,
-    attendees: [
-      {
-        id: "a1", // Same ID as John Doe from first event
-        name: "John Doe",
-        email: "john@example.com",
-        userType: "normal",
-        paymentStatus: "free",
-        registeredAt: "2025-06-25T11:45:00Z"
-      },
-      {
-        id: "a4",
-        name: "Sarah Williams",
-        email: "sarah@example.com",
-        userType: "normal",
-        paymentStatus: "free",
-        registeredAt: "2025-06-25T11:45:00Z"
-      },
-      {
-        id: "a5",
-        name: "Alex Chen",
-        email: "alex@example.com",
-        userType: "guest",
-        paymentStatus: "free",
-        registeredAt: "2025-06-28T16:30:00Z"
-      }
-    ]
-  },
-  {
     id: "3",
     title: "Design Workshop",
     description: "Learn the latest UI/UX design trends and practical skills from experienced designers.",
@@ -124,6 +88,42 @@ export const events: Event[] = [
         userType: "normal",
         paymentStatus: "paid",
         registeredAt: "2025-07-15T14:10:00Z"
+      }
+    ]
+  },
+  {
+    id: "2",
+    title: "Community Hackathon",
+    description: "A weekend of coding, collaboration, and creating innovative solutions to real-world problems.",
+    date: "2025-07-22",
+    time: "10:00 - 18:00",
+    location: "Innovation Hub, Seattle",
+    imageUrl: "/placeholder.svg",
+    isFree: true,
+    attendees: [
+      {
+        id: "a1",
+        name: "John Doe",
+        email: "john@example.com",
+        userType: "normal",
+        paymentStatus: "free",
+        registeredAt: "2025-06-25T11:45:00Z"
+      },
+      {
+        id: "a4",
+        name: "Sarah Williams",
+        email: "sarah@example.com",
+        userType: "normal",
+        paymentStatus: "free",
+        registeredAt: "2025-06-25T11:45:00Z"
+      },
+      {
+        id: "a5",
+        name: "Alex Chen",
+        email: "alex@example.com",
+        userType: "guest",
+        paymentStatus: "free",
+        registeredAt: "2025-06-28T16:30:00Z"
       }
     ]
   },

@@ -1,4 +1,3 @@
-
 import { Event } from "@/data/mockData";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -39,6 +38,11 @@ export function EventCards({ events }: EventCardsProps) {
                 <span>{event.attendees.length} attendees</span>
               </div>
             </div>
+            {!event.isFree && (
+              <div className="text-sm font-medium text-muted-foreground mb-2">
+                Price: £{event.price?.toFixed(2) || "0.00"}
+              </div>
+            )}
             <div className="flex space-x-2">
               <Link to={`/events/${event.id}`} className="flex-1">
                 <Button variant="outline" className="w-full">View</Button>
