@@ -1,3 +1,5 @@
+
+import React, { useState } from 'react';
 import { DashboardLayout } from '@/components/DashboardLayout';
 import { events } from '@/data/mockData';
 import { Button } from "@/components/ui/button";
@@ -20,7 +22,6 @@ import {
   ChevronRight,
   Calendar
 } from 'lucide-react';
-import { useState } from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,

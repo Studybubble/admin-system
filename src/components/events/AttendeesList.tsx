@@ -1,4 +1,5 @@
 
+import React, { useState } from 'react';
 import { Attendee, Event } from "@/data/mockData";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -9,7 +10,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useState } from "react";
 import { ChevronDown, ChevronRight, Calendar } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
