@@ -1,4 +1,3 @@
-
 export type UserType = 'guest' | 'normal';
 export type PaymentStatus = 'free' | 'paid';
 
@@ -34,7 +33,7 @@ export const events: Event[] = [
     location: "Convention Center, San Francisco",
     imageUrl: "/placeholder.svg",
     isFree: false,
-    price: 99.99,  // Added price
+    price: 99.99,
     attendees: [
       {
         id: "a1",
@@ -107,7 +106,7 @@ export const events: Event[] = [
     location: "Creative Studios, Austin",
     imageUrl: "/placeholder.svg",
     isFree: false,
-    price: 49.99,  // Added price
+    price: 49.99,
     attendees: [
       {
         id: "a6",
