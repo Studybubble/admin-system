@@ -113,7 +113,12 @@ export function ProfileSettings() {
       </div>
 
       <div className="flex justify-end">
-        <Button onClick={saveChanges} className="bg-purple-400 hover:bg-purple-500">Save Changes</Button>
+        <Button 
+          onClick={saveChanges} 
+          className="bg-purple-400 hover:bg-purple-500"
+        >
+          Save Changes
+        </Button>
       </div>
     </div>
   );
