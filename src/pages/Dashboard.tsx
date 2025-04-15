@@ -1,4 +1,3 @@
-
 import { DashboardLayout } from '@/components/DashboardLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { events } from '@/data/mockData';
@@ -57,12 +56,13 @@ export function Dashboard() {
       </div>
 
       <div className="mt-6">
-        <Card className="overflow-hidden border-none shadow-lg">
-          <AspectRatio ratio={16/6} className="bg-white">
+        <Card className="overflow-hidden border-none shadow-none bg-transparent">
+          <AspectRatio ratio={16/6}>
             <img 
               src="/lovable-uploads/9788fa94-9a3d-4e18-a086-a762bf0e0ab6.png"
               alt="Oxford Skyline Watercolor"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain bg-transparent"
+              style={{ background: 'transparent' }}
             />
           </AspectRatio>
         </Card>
