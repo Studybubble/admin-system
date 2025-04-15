@@ -90,11 +90,7 @@ export function AttendeesList({ attendees }: AttendeesListProps) {
                 {expandedAttendees.has(attendee.id) && (
                   <TableRow className="bg-muted/20">
                     <TableCell colSpan={6} className="py-2 px-4">
-                      <div className="ml-6 border-l-2 border-muted pl-4 py-1">
-                        <p className="text-sm text-muted-foreground">
-                          This attendee registered for this event on {new Date(attendee.registeredAt).toLocaleDateString()}
-                        </p>
-                      </div>
+                      {/* Removed the additional text */}
                     </TableCell>
                   </TableRow>
                 )}

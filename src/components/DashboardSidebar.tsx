@@ -1,4 +1,3 @@
-
 import { 
   LayoutDashboard, 
   CalendarDays, 
@@ -59,7 +58,7 @@ export function DashboardSidebar() {
   };
 
   return (
-    <Sidebar className="bg-gradient-to-b from-blue-100 via-purple-100 to-blue-50">
+    <Sidebar className="bg-gradient-to-b from-lavender-100 via-lavender-100 to-lavender-50">
       <SidebarHeader>
         <div className="flex items-center justify-start px-4 py-2">
           <div className="flex items-center gap-2">
@@ -82,7 +81,7 @@ export function DashboardSidebar() {
           </div>
         </div>
       </SidebarHeader>
-      <SidebarContent className="bg-gradient-to-b from-blue-100 via-purple-100 to-blue-50">
+      <SidebarContent className="bg-gradient-to-b from-lavender-100 via-lavender-100 to-lavender-50">
         <SidebarGroup>
           <SidebarGroupLabel>Main Menu</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -101,7 +100,7 @@ export function DashboardSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="bg-gradient-to-b from-blue-100 via-purple-100 to-blue-50">
+      <SidebarFooter className="bg-gradient-to-b from-lavender-100 via-lavender-100 to-lavender-50">
         <div className="px-4 py-2 text-xs text-muted-foreground">
           Events Admin Dashboard v1.0
         </div>
