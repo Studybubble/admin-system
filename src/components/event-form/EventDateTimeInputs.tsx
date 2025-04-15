@@ -37,7 +37,7 @@ export function EventDateTimeInputs({
                   !date && "text-muted-foreground"
                 )}
               >
-                <CalendarIcon className="mr-2 h-4 w-4 text-purple-500" />
+                <CalendarIcon className="mr-2 h-4 w-4 text-black" />
                 {date ? format(date, "PPP") : "Select date"}
               </Button>
             </PopoverTrigger>
