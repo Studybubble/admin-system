@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -111,7 +110,7 @@ export function SecuritySettings() {
         </div>
 
         <div className="flex justify-end">
-          <Button onClick={handleChangePassword}>Save</Button>
+          <Button onClick={handleChangePassword}>Save Changes</Button>
         </div>
       </div>
     </div>
