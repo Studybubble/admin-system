@@ -1,11 +1,9 @@
-
 import { 
   LayoutDashboard, 
   CalendarDays, 
   Users, 
   Plus, 
   Settings,
-  Ticket,
   LogOut
 } from "lucide-react";
 import {
@@ -61,11 +59,7 @@ export function DashboardSidebar() {
   return (
     <Sidebar>
       <SidebarHeader>
-        <div className="flex items-center justify-between px-4 py-2">
-          <div className="flex items-center gap-2">
-            <Ticket className="h-6 w-6 text-primary" />
-            <span className="text-xl font-bold">Events</span>
-          </div>
+        <div className="flex items-center justify-end px-4 py-2">
           <div className="flex items-center gap-2">
             <Avatar className="h-8 w-8">
               <AvatarFallback className="bg-primary text-primary-foreground">A</AvatarFallback>
