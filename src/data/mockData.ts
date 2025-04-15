@@ -21,6 +21,7 @@ export interface Event {
   isFree: boolean;
   price?: number;  // Added price field (optional)
   attendees: Attendee[];
+  isDeleted?: boolean; // Added isDeleted field as optional
 }
 
 export const events: Event[] = [
