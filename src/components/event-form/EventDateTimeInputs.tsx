@@ -41,7 +41,7 @@ export function EventDateTimeInputs({
                 {date ? format(date, "PPP") : "Select date"}
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-auto p-0">
+            <PopoverContent className="w-auto p-0 shadow-md rounded-md">
               <Calendar
                 mode="single"
                 selected={date}
@@ -60,12 +60,7 @@ export function EventDateTimeInputs({
             type="time"
             value={startTime}
             onChange={onInputChange}
-            className={cn(
-              "focus:border-purple-500 focus:ring-purple-500 focus:ring-2 focus:ring-opacity-50",
-              "hover:border-purple-400",
-              "text-purple-700",
-              "focus:text-purple-900"
-            )}
+            className="text-purple-700 focus:ring-2 focus:ring-purple-400 focus:ring-opacity-50 focus:border-purple-400"
             required
           />
         </div>
@@ -79,12 +74,7 @@ export function EventDateTimeInputs({
           type="time"
           value={endTime}
           onChange={onInputChange}
-          className={cn(
-            "focus:border-purple-500 focus:ring-purple-500 focus:ring-2 focus:ring-opacity-50",
-            "hover:border-purple-400",
-            "text-purple-700",
-            "focus:text-purple-900"
-          )}
+          className="text-purple-700 focus:ring-2 focus:ring-purple-400 focus:ring-opacity-50 focus:border-purple-400"
         />
       </div>
     </>
