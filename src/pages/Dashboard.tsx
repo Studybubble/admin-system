@@ -60,7 +60,7 @@ export function Dashboard() {
         <Card>
           <AspectRatio ratio={16/6}>
             <img 
-              src="/lovable-uploads/9788fa94-9a3d-4e18-a086-a762bf0e0ab6.png"
+              src="/lovable-uploads/bee12fff-e4d9-4656-bd23-674e34d8c978.png"
               alt="Oxford Skyline Watercolor"
               className="w-full h-full object-cover"
             />
@@ -72,3 +72,4 @@ export function Dashboard() {
 }
 
 export default Dashboard;
+
