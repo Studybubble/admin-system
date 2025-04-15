@@ -139,7 +139,7 @@ export function AttendeesTable({
                     <Badge 
                       variant="outline" 
                       className={attendee.userType === 'guest' 
-                        ? "bg-[#1A1F2C] text-white border-[#1A1F2C] rounded-full px-3 py-1" 
+                        ? "bg-[#7E69AB] text-white border-[#7E69AB] rounded-full px-3 py-1" 
                         : "bg-blue-50 text-blue-700 border-blue-200 rounded-full px-3 py-1"}
                     >
                       {attendee.userType === 'guest' ? 'Guest' : 'Normal'}
