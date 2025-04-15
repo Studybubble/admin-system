@@ -4,7 +4,8 @@ import {
   Users, 
   Plus, 
   Settings,
-  LogOut
+  LogOut,
+  User
 } from "lucide-react";
 import {
   Sidebar,
@@ -59,18 +60,20 @@ export function DashboardSidebar() {
   return (
     <Sidebar>
       <SidebarHeader>
-        <div className="flex items-center justify-end px-4 py-2">
+        <div className="flex items-center justify-start px-4 py-2">
           <div className="flex items-center gap-2">
-            <Avatar className="h-8 w-8">
-              <AvatarFallback className="bg-primary text-primary-foreground">A</AvatarFallback>
+            <Avatar className="h-8 w-8 mr-2">
+              <AvatarFallback className="bg-primary text-primary-foreground">
+                <User className="h-5 w-5" />
+              </AvatarFallback>
             </Avatar>
-            <div className="hidden md:block">
+            <div>
               <p className="text-sm font-medium">Hello, Admin</p>
             </div>
             <Button 
               variant="ghost" 
               size="icon" 
-              className="text-muted-foreground"
+              className="text-muted-foreground ml-auto"
               onClick={handleSignOut}
             >
               <LogOut className="h-4 w-4" />
