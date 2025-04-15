@@ -1,4 +1,3 @@
-
 import { DashboardLayout } from '@/components/DashboardLayout';
 import { events } from '@/data/mockData';
 import { Button } from "@/components/ui/button";
@@ -33,9 +32,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Card, CardContent } from "@/components/ui/card";
 
-// Process attendees data to group by unique users
 const processAttendeeData = () => {
-  // Track unique attendees by email
   const uniqueAttendees = new Map();
   
   events.forEach(event => {
@@ -43,7 +40,6 @@ const processAttendeeData = () => {
       const key = attendee.email;
       
       if (!uniqueAttendees.has(key)) {
-        // Create new attendee entry with events array
         uniqueAttendees.set(key, {
           ...attendee,
           events: [{
@@ -55,7 +51,6 @@ const processAttendeeData = () => {
           }]
         });
       } else {
-        // Add this event to existing attendee
         const existingAttendee = uniqueAttendees.get(key);
         existingAttendee.events.push({
           id: event.id,
@@ -101,7 +96,6 @@ export function AttendeesList() {
     setExpandedAttendees(newExpanded);
   };
   
-  // Filter attendees
   let filteredAttendees = allAttendees.filter(attendee => 
     (attendee.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
      attendee.email.toLowerCase().includes(searchTerm.toLowerCase())) &&
@@ -109,7 +103,6 @@ export function AttendeesList() {
     (paymentFilter === null || attendee.paymentStatus === paymentFilter)
   );
   
-  // Sort attendees
   if (sortField) {
     filteredAttendees = [...filteredAttendees].sort((a, b) => {
       let valueA = a[sortField];
@@ -358,12 +351,9 @@ export function AttendeesList() {
                                       <CalendarDays className="h-4 w-4 text-blue-600" />
                                     </div>
                                     <div>
-                                      <Link 
-                                        to={`/events/${event.id}`} 
-                                        className="font-medium hover:underline text-sm"
-                                      >
+                                      <span className="font-medium text-sm">
                                         {event.title}
-                                      </Link>
+                                      </span>
                                       <p className="text-xs text-muted-foreground">
                                         {new Date(event.date).toLocaleDateString()}
                                       </p>
@@ -393,4 +383,3 @@ export function AttendeesList() {
 }
 
 export default AttendeesList;
-
