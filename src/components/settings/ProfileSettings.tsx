@@ -13,6 +13,7 @@ export function ProfileSettings() {
   const [email, setEmail] = useState("admin@example.com");
   const [profileImage, setProfileImage] = useState("");
   const [uploading, setUploading] = useState(false);
+  const username = "admin_user"; // Fixed username
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -55,7 +56,7 @@ export function ProfileSettings() {
         <div className="relative">
           <Avatar className="h-20 w-20">
             <AvatarImage src={profileImage} />
-            <AvatarFallback className="bg-primary text-primary-foreground">
+            <AvatarFallback className="bg-purple-200 text-purple-700">
               <User className="h-8 w-8" />
             </AvatarFallback>
           </Avatar>
@@ -63,7 +64,7 @@ export function ProfileSettings() {
           <div className="absolute bottom-0 right-0">
             <Label 
               htmlFor="profile-image" 
-              className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-primary text-primary-foreground shadow-sm"
+              className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-purple-300 text-purple-700 shadow-sm hover:bg-purple-200"
             >
               <Camera className="h-4 w-4" />
               <span className="sr-only">Upload profile picture</span>
@@ -82,7 +83,7 @@ export function ProfileSettings() {
         <div className="space-y-1">
           <h4 className="text-base font-semibold">{name}</h4>
           <p className="text-sm text-muted-foreground">Upload a new avatar</p>
-          {uploading && <p className="text-xs text-blue-500">Uploading...</p>}
+          {uploading && <p className="text-xs text-purple-500">Uploading...</p>}
         </div>
       </div>
 
@@ -93,13 +94,26 @@ export function ProfileSettings() {
         </div>
 
         <div className="grid gap-2">
+          <Label htmlFor="username">Username</Label>
+          <div className="relative">
+            <Input 
+              id="username" 
+              value={username} 
+              readOnly 
+              className="bg-muted cursor-not-allowed" 
+            />
+            <p className="text-xs text-muted-foreground mt-1">Username cannot be changed</p>
+          </div>
+        </div>
+
+        <div className="grid gap-2">
           <Label htmlFor="email">Email Address</Label>
           <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
         </div>
       </div>
 
       <div className="flex justify-end">
-        <Button onClick={saveChanges}>Save Changes</Button>
+        <Button onClick={saveChanges} className="bg-purple-400 hover:bg-purple-500">Save Changes</Button>
       </div>
     </div>
   );
