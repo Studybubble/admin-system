@@ -1,7 +1,6 @@
 
 import React, { useState } from 'react';
 import { Attendee, Event } from "@/data/mockData";
-import { Badge } from "@/components/ui/badge";
 import {
   Table,
   TableBody,
@@ -10,8 +9,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ChevronDown, ChevronRight, Calendar } from "lucide-react";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { AttendeeRow } from './attendees/AttendeeRow';
+import { AttendeeDetails } from './attendees/AttendeeDetails';
 
 interface AttendeesListProps {
   attendees: Attendee[];
@@ -29,15 +28,6 @@ export function AttendeesList({ attendees, events = [] }: AttendeesListProps) {
       newExpanded.add(attendeeId);
     }
     setExpandedAttendees(newExpanded);
-  };
-
-  // Find events for each attendee
-  const getEventsForAttendee = (attendeeId: string) => {
-    if (!events || events.length === 0) return [];
-    
-    return events.filter(event => 
-      event.attendees.some(a => a.id === attendeeId)
-    );
   };
   
   return (
@@ -59,82 +49,14 @@ export function AttendeesList({ attendees, events = [] }: AttendeesListProps) {
           <TableBody>
             {attendees.map((attendee) => (
               <React.Fragment key={attendee.id}>
-                <TableRow 
-                  className="cursor-pointer hover:bg-muted/50"
-                  onClick={() => toggleAttendeeExpansion(attendee.id)}
-                >
-                  <TableCell className="p-2 w-8">
-                    {expandedAttendees.has(attendee.id) ? (
-                      <ChevronDown className="h-4 w-4 text-muted-foreground" />
-                    ) : (
-                      <ChevronRight className="h-4 w-4 text-muted-foreground" />
-                    )}
-                  </TableCell>
-                  <TableCell className="font-medium flex items-center gap-3">
-                    <Avatar className="h-8 w-8">
-                      <AvatarFallback />
-                    </Avatar>
-                    {attendee.name}
-                  </TableCell>
-                  <TableCell>{attendee.userType === "normal" ? `@${attendee.name.toLowerCase().split(' ').join('_')}` : "-"}</TableCell>
-                  <TableCell>{attendee.email}</TableCell>
-                  <TableCell>
-                    <Badge 
-                      variant="outline" 
-                      className={attendee.userType === "guest" ? 
-                        "bg-purple-50 text-purple-700 border-purple-200 rounded-full px-3 py-1" : 
-                        "bg-gray-50 text-gray-700 border-gray-200 rounded-full px-3 py-1"}
-                    >
-                      {attendee.userType === "guest" ? "Guest" : "Normal"}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    {attendee.paymentStatus === "free" ? (
-                      <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
-                        Free
-                      </Badge>
-                    ) : (
-                      <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
-                        Paid
-                      </Badge>
-                    )}
-                  </TableCell>
-                  <TableCell>{new Date(attendee.registeredAt).toLocaleDateString()}</TableCell>
-                </TableRow>
+                <AttendeeRow
+                  attendee={attendee}
+                  isExpanded={expandedAttendees.has(attendee.id)}
+                  onToggleExpand={() => toggleAttendeeExpansion(attendee.id)}
+                />
                 
                 {expandedAttendees.has(attendee.id) && (
-                  <TableRow className="bg-muted/20">
-                    <TableCell colSpan={7} className="py-2 px-4">
-                      <div className="pl-8">
-                        <p className="text-sm font-medium mb-2">Registered Events:</p>
-                        <div className="space-y-2">
-                          {getEventsForAttendee(attendee.id).length > 0 ? (
-                            getEventsForAttendee(attendee.id).map((event, index) => (
-                              <div key={index} className="flex items-center gap-2 text-sm bg-white p-2 rounded border">
-                                <Calendar className="h-4 w-4 text-primary" />
-                                <span>{event.title}</span>
-                                <span className="text-xs text-muted-foreground">
-                                  ({event.date})
-                                </span>
-                                {!event.isFree && (
-                                  <Badge variant="outline" className="ml-auto bg-amber-50 text-amber-700 border-amber-200">
-                                    ${event.price}
-                                  </Badge>
-                                )}
-                                {event.isFree && (
-                                  <Badge variant="outline" className="ml-auto bg-green-50 text-green-700 border-green-200">
-                                    Free
-                                  </Badge>
-                                )}
-                              </div>
-                            ))
-                          ) : (
-                            <p className="text-sm text-muted-foreground">See Attendee list for event details</p>
-                          )}
-                        </div>
-                      </div>
-                    </TableCell>
-                  </TableRow>
+                  <AttendeeDetails attendee={attendee} events={events} />
                 )}
               </React.Fragment>
             ))}
