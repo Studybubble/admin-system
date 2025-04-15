@@ -129,7 +129,7 @@ export function AttendeesList({ attendees, events = [] }: AttendeesListProps) {
                               </div>
                             ))
                           ) : (
-                            <p className="text-sm text-muted-foreground">No event information available</p>
+                            <p className="text-sm text-muted-foreground">See Attendee list for event details</p>
                           )}
                         </div>
                       </div>
