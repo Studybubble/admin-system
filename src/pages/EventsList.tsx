@@ -2,25 +2,20 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DashboardLayout } from '@/components/DashboardLayout';
-import { events, Event } from '@/data/mockData';
 import { Button } from "@/components/ui/button";
 import { EventFilters } from '@/components/events/EventFilters';
 import { EventsTable } from '@/components/events/EventsTable';
 import { EventCards } from '@/components/events/EventCards';
-
-// Adding maxAttendees to simulate event capacity for UI demonstration
-const eventsWithCapacity = events.map(event => ({
-  ...event,
-  maxAttendees: event.id === "1" ? 50 : (event.id === "2" ? 30 : (event.id === "3" ? 25 : undefined))
-}));
+import { useEvents } from '@/context/EventsContext';
 
 export function EventsList() {
+  const { events } = useEvents();
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState<string>("all");
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   
-  const filteredEvents = eventsWithCapacity.filter(event => {
+  const filteredEvents = events.filter(event => {
     const matchesSearch = event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       event.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
       event.location.toLowerCase().includes(searchTerm.toLowerCase());

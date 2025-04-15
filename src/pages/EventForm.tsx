@@ -2,35 +2,54 @@
 import { DashboardLayout } from '@/components/DashboardLayout';
 import { Button } from "@/components/ui/button";
 import { Loader2 } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { events } from '@/data/mockData';
 import { useToast } from '@/hooks/use-toast';
 import { EventBasicInfo } from '@/components/event-form/EventBasicInfo';
 import { EventDateTimeInputs } from '@/components/event-form/EventDateTimeInputs';
 import { EventPriceToggle } from '@/components/event-form/EventPriceToggle';
 import { EventImageUpload } from '@/components/event-form/EventImageUpload';
+import { useEvents } from '@/context/EventsContext';
 
 export function EventForm() {
   const { id } = useParams<{ id: string }>();
   const isEditMode = !!id;
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { events, updateEvent } = useEvents();
   
   const existingEvent = isEditMode ? events.find(e => e.id === id) : null;
   
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
-    title: existingEvent?.title || '',
-    description: existingEvent?.description || '',
-    date: existingEvent?.date ? new Date(existingEvent.date) : new Date(),
-    time: existingEvent?.time?.split(' - ')[0].trim() || '09:00',
-    endTime: existingEvent?.time?.split(' - ')[1]?.trim() || '',
-    location: existingEvent?.location || '',
-    isFree: existingEvent?.isFree ?? true,
-    price: existingEvent?.price || 0,
+    title: '',
+    description: '',
+    date: new Date(),
+    time: '09:00',
+    endTime: '',
+    location: '',
+    isFree: true,
+    price: 0,
     image: null as File | null,
   });
+
+  useEffect(() => {
+    if (existingEvent) {
+      const timeParts = existingEvent.time?.split(' - ') || ['09:00', ''];
+      
+      setFormData({
+        title: existingEvent.title || '',
+        description: existingEvent.description || '',
+        date: existingEvent.date ? new Date(existingEvent.date) : new Date(),
+        time: timeParts[0].trim() || '09:00',
+        endTime: timeParts[1]?.trim() || '',
+        location: existingEvent.location || '',
+        isFree: existingEvent.isFree ?? true,
+        price: existingEvent.price || 0,
+        image: null,
+      });
+    }
+  }, [existingEvent]);
   
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -53,15 +72,45 @@ export function EventForm() {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate API call
+    // Format the time string based on whether endTime exists
+    const formattedTime = formData.endTime 
+      ? `${formData.time} - ${formData.endTime}`
+      : formData.time;
+      
+    // Format date to string (YYYY-MM-DD)
+    const formattedDate = formData.date.toISOString().split('T')[0];
+      
+    // Create the updated event data
+    const updatedEventData = {
+      title: formData.title,
+      description: formData.description,
+      date: formattedDate,
+      time: formattedTime,
+      location: formData.location,
+      isFree: formData.isFree,
+      price: !formData.isFree ? Number(formData.price) : undefined,
+    };
+    
     setTimeout(() => {
-      toast({
-        title: isEditMode ? "Event Updated" : "Event Created",
-        description: `Successfully ${isEditMode ? 'updated' : 'created'} ${formData.title}`,
-      });
+      if (isEditMode && id) {
+        // Update existing event
+        updateEvent(id, updatedEventData);
+        
+        toast({
+          title: "Event Updated",
+          description: `Successfully updated ${formData.title}`,
+        });
+      } else {
+        // Create new event logic would go here (not part of this task)
+        toast({
+          title: "Event Created",
+          description: `Successfully created ${formData.title}`,
+        });
+      }
+      
       setIsSubmitting(false);
       navigate('/events');
-    }, 1500);
+    }, 1000);
   };
   
   return (
