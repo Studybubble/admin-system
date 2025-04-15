@@ -10,17 +10,8 @@ import EventsList from "./pages/EventsList";
 import EventDetail from "./pages/EventDetail";
 import EventForm from "./pages/EventForm";
 import AttendeesList from "./pages/AttendeesList";
+import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
-
-// Create a placeholder Settings page until it's implemented
-const Settings = () => (
-  <div className="flex min-h-screen items-center justify-center">
-    <div className="text-center">
-      <h1 className="text-2xl font-bold mb-4">Settings</h1>
-      <p className="text-muted-foreground">This page is under construction</p>
-    </div>
-  </div>
-);
 
 const queryClient = new QueryClient();
 
