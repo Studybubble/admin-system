@@ -1,4 +1,3 @@
-
 import { Event } from "@/data/mockData";
 
 // Function to check if event is at full capacity
@@ -8,9 +7,16 @@ export const isEventFull = (event: Event & { maxAttendees?: number }) => {
 
 // Function to format time display
 export const formatTimeDisplay = (time: string) => {
-  // If there's no time or it already contains a dash (range), return as is
-  if (!time || time.includes('-')) {
+  // If there's no time, return empty string
+  if (!time) {
+    return "";
+  }
+  
+  // If it already contains a dash (range), return as is
+  if (time.includes('-')) {
     return time;
   }
-  return `${time} onwards`;
+  
+  // Otherwise, just return the start time without "onwards"
+  return time;
 };
