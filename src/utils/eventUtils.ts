@@ -8,6 +8,9 @@ export const isEventFull = (event: Event & { maxAttendees?: number }) => {
 
 // Function to format time display
 export const formatTimeDisplay = (time: string) => {
-  // Check if time contains a range (has a dash)
-  return time.includes('-') ? time : `${time} onwards`;
+  // If there's no time or it already contains a dash (range), return as is
+  if (!time || time.includes('-')) {
+    return time;
+  }
+  return `${time} onwards`;
 };

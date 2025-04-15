@@ -5,11 +5,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { 
-  CalendarDays, 
   ChevronDown, 
   ChevronUp, 
-  Clock,
-  MapPin, 
   Pencil, 
   Trash, 
   Users 
@@ -37,22 +34,13 @@ export function EventRow({ event, isExpanded, onToggleExpand }: EventRowProps) {
         {event.title}
       </TableCell>
       <TableCell>
-        <div className="flex items-center gap-2">
-          <CalendarDays className="h-4 w-4 text-muted-foreground" />
-          {event.date}
-        </div>
+        {event.date}
       </TableCell>
       <TableCell>
-        <div className="flex items-center gap-2">
-          <Clock className="h-4 w-4 text-muted-foreground" />
-          {formatTimeDisplay(event.time)}
-        </div>
+        {formatTimeDisplay(event.time)}
       </TableCell>
       <TableCell>
-        <div className="flex items-center gap-2">
-          <MapPin className="h-4 w-4 text-muted-foreground" />
-          {event.location}
-        </div>
+        {event.location}
       </TableCell>
       <TableCell>
         {event.isFree ? (
@@ -63,6 +51,13 @@ export function EventRow({ event, isExpanded, onToggleExpand }: EventRowProps) {
           <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
             Paid
           </Badge>
+        )}
+      </TableCell>
+      <TableCell>
+        {event.isFree ? (
+          "-"
+        ) : (
+          <span className="font-medium">${event.price?.toFixed(2) || "0.00"}</span>
         )}
       </TableCell>
       <TableCell>

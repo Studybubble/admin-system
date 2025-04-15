@@ -29,9 +29,10 @@ export function EventForm() {
     description: existingEvent?.description || '',
     date: existingEvent?.date ? new Date(existingEvent.date) : new Date(),
     time: existingEvent?.time?.split(' - ')[0].trim() || '09:00',
-    endTime: existingEvent?.time?.split(' - ')[1]?.trim() || '17:00',
+    endTime: existingEvent?.time?.split(' - ')[1]?.trim() || '',
     location: existingEvent?.location || '',
     isFree: existingEvent?.isFree ?? true,
+    price: existingEvent?.price || 0,
     image: null as File | null,
   });
   
@@ -163,16 +164,32 @@ export function EventForm() {
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="endTime">End Time</Label>
+              <Label htmlFor="endTime">End Time (Optional)</Label>
               <Input
                 id="endTime"
                 name="endTime"
                 type="time"
                 value={formData.endTime}
                 onChange={handleChange}
-                required
               />
             </div>
+            
+            {!formData.isFree && (
+              <div className="space-y-2">
+                <Label htmlFor="price">Price ($)</Label>
+                <Input
+                  id="price"
+                  name="price"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value={formData.price}
+                  onChange={handleChange}
+                  placeholder="0.00"
+                  required={!formData.isFree}
+                />
+              </div>
+            )}
           </div>
           
           <div className="space-y-4">
@@ -239,7 +256,7 @@ export function EventForm() {
                   <div className="ml-3">
                     <h3 className="text-sm font-medium text-blue-800">Paid Event</h3>
                     <div className="mt-2 text-sm text-blue-700">
-                      <p>This event will be marked as paid. You can configure payment options after creating the event.</p>
+                      <p>This event will be marked as paid. Please specify the price above.</p>
                     </div>
                   </div>
                 </div>
