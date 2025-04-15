@@ -5,7 +5,8 @@ import {
   Users, 
   Plus, 
   Settings,
-  Ticket
+  Ticket,
+  LogOut
 } from "lucide-react";
 import {
   Sidebar,
@@ -20,6 +21,8 @@ import {
   SidebarFooter
 } from "@/components/ui/sidebar";
 import { Link } from "react-router-dom";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 
 const navItems = [
   {
@@ -50,12 +53,35 @@ const navItems = [
 ];
 
 export function DashboardSidebar() {
+  const handleSignOut = () => {
+    // In a real app, this would handle authentication signout
+    console.log("Sign out clicked");
+  };
+
   return (
     <Sidebar>
       <SidebarHeader>
-        <div className="flex items-center gap-2 px-4 py-2">
-          <Ticket className="h-6 w-6 text-primary" />
-          <span className="text-xl font-bold">EventFlow</span>
+        <div className="flex items-center justify-between px-4 py-2">
+          <div className="flex items-center gap-2">
+            <Ticket className="h-6 w-6 text-primary" />
+            <span className="text-xl font-bold">Events</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Avatar className="h-8 w-8">
+              <AvatarFallback className="bg-primary text-primary-foreground">A</AvatarFallback>
+            </Avatar>
+            <div className="hidden md:block">
+              <p className="text-sm font-medium">Hello, Admin</p>
+            </div>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="text-muted-foreground"
+              onClick={handleSignOut}
+            >
+              <LogOut className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
       </SidebarHeader>
       <SidebarContent>
@@ -79,7 +105,7 @@ export function DashboardSidebar() {
       </SidebarContent>
       <SidebarFooter>
         <div className="px-4 py-2 text-xs text-muted-foreground">
-          EventFlow Admin Dashboard v1.0
+          Events Admin Dashboard v1.0
         </div>
       </SidebarFooter>
     </Sidebar>

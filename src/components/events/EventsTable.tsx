@@ -39,7 +39,8 @@ export function EventsTable({ events }: EventsTableProps) {
             <TableHead>Type</TableHead>
             <TableHead>Price</TableHead>
             <TableHead>Attendees</TableHead>
-            <TableHead>Actions</TableHead>
+            <TableHead>Edit</TableHead>
+            <TableHead>Delete</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -55,7 +56,7 @@ export function EventsTable({ events }: EventsTableProps) {
                 
                 {expandedEvent === event.id && (
                   <TableRow className="bg-muted/30">
-                    <TableCell colSpan={8} className="p-0">
+                    <TableCell colSpan={9} className="p-0">
                       <AttendeesList attendees={event.attendees} />
                     </TableCell>
                   </TableRow>
@@ -64,7 +65,7 @@ export function EventsTable({ events }: EventsTableProps) {
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
+              <TableCell colSpan={9} className="text-center py-8 text-muted-foreground">
                 No events found matching your filters
               </TableCell>
             </TableRow>

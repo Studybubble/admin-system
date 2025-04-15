@@ -75,17 +75,17 @@ export function EventRow({ event, isExpanded, onToggleExpand }: EventRowProps) {
           )}
         </div>
       </TableCell>
-      <TableCell>
-        <div className="flex space-x-2">
-          <Link to={`/events/${event.id}/edit`}>
-            <Button variant="ghost" size="icon">
-              <Pencil className="h-4 w-4" />
-            </Button>
-          </Link>
-          <Button variant="ghost" size="icon">
-            <Trash className="h-4 w-4" />
+      <TableCell onClick={(e) => e.stopPropagation()}>
+        <Link to={`/events/${event.id}/edit`}>
+          <Button variant="ghost" size="sm" className="text-blue-600">
+            <Pencil className="h-4 w-4" />
           </Button>
-        </div>
+        </Link>
+      </TableCell>
+      <TableCell onClick={(e) => e.stopPropagation()}>
+        <Button variant="ghost" size="sm" className="text-red-600">
+          <Trash className="h-4 w-4" />
+        </Button>
       </TableCell>
     </TableRow>
   );
