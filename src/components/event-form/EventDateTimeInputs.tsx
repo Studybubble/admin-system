@@ -33,11 +33,11 @@ export function EventDateTimeInputs({
               <Button
                 variant="outline"
                 className={cn(
-                  "w-full justify-start text-left font-normal",
+                  "w-full justify-start text-left font-normal border-purple-300 hover:border-purple-400",
                   !date && "text-muted-foreground"
                 )}
               >
-                <CalendarIcon className="mr-2 h-4 w-4" />
+                <CalendarIcon className="mr-2 h-4 w-4 text-purple-500" />
                 {date ? format(date, "PPP") : "Select date"}
               </Button>
             </PopoverTrigger>
@@ -60,6 +60,7 @@ export function EventDateTimeInputs({
             type="time"
             value={startTime}
             onChange={onInputChange}
+            className="focus:ring-purple-500 focus:border-purple-500 border-purple-300 hover:border-purple-400"
             required
           />
         </div>
@@ -73,8 +74,10 @@ export function EventDateTimeInputs({
           type="time"
           value={endTime}
           onChange={onInputChange}
+          className="focus:ring-purple-500 focus:border-purple-500 border-purple-300 hover:border-purple-400"
         />
       </div>
     </>
   );
 }
+
