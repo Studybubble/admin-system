@@ -59,7 +59,7 @@ export function Dashboard() {
         <Card className="overflow-hidden border-none shadow-none bg-transparent">
           <AspectRatio ratio={16/6}>
             <img 
-              src="/lovable-uploads/9788fa94-9a3d-4e18-a086-a762bf0e0ab6.png"
+              src="/lovable-uploads/0bce4c19-014c-472e-9ba5-caca69e1f035.png"
               alt="Oxford Skyline Watercolor"
               className="w-full h-full object-contain bg-transparent"
               style={{ background: 'transparent' }}
