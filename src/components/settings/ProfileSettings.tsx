@@ -115,7 +115,7 @@ export function ProfileSettings() {
       <div className="flex justify-end">
         <Button 
           onClick={saveChanges} 
-          className="bg-purple-400 hover:bg-purple-500"
+          className="bg-purple-600 hover:bg-purple-700"
         >
           Save Changes
         </Button>
