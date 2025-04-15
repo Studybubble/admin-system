@@ -10,6 +10,7 @@ import { EventDateTimeInputs } from '@/components/event-form/EventDateTimeInputs
 import { EventPriceToggle } from '@/components/event-form/EventPriceToggle';
 import { EventImageUpload } from '@/components/event-form/EventImageUpload';
 import { useEvents } from '@/context/EventsContext';
+import { EventSuccessDialog } from '@/components/events/EventSuccessDialog';
 
 export function EventForm() {
   const { id } = useParams<{ id: string }>();
@@ -21,6 +22,7 @@ export function EventForm() {
   const existingEvent = isEditMode ? events.find(e => e.id === id) : null;
   
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -109,7 +111,8 @@ export function EventForm() {
       }
       
       setIsSubmitting(false);
-      navigate('/events');
+      // Show success dialog instead of navigating immediately
+      setShowSuccessDialog(true);
     }, 1000);
   };
   
@@ -171,6 +174,13 @@ export function EventForm() {
           </Button>
         </div>
       </form>
+      
+      <EventSuccessDialog 
+        isOpen={showSuccessDialog}
+        setIsOpen={setShowSuccessDialog}
+        eventTitle={formData.title}
+        isEdit={isEditMode}
+      />
     </DashboardLayout>
   );
 }
