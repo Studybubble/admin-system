@@ -241,6 +241,7 @@ export function AttendeesList() {
                   )}
                 </div>
               </TableHead>
+              <TableHead>Username</TableHead>
               <TableHead>
                 <div 
                   className="flex items-center cursor-pointer" 
@@ -291,7 +292,7 @@ export function AttendeesList() {
           <TableBody>
             {filteredAttendees.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
+                <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
                   No attendees found matching the current filters
                 </TableCell>
               </TableRow>
@@ -316,6 +317,9 @@ export function AttendeesList() {
                       </div>
                       <span className="font-medium">{attendee.name}</span>
                     </TableCell>
+                    <TableCell>
+                      {attendee.userType === "normal" ? `@${attendee.name.toLowerCase().split(' ').join('_')}` : "-"}
+                    </TableCell>
                     <TableCell>{attendee.email}</TableCell>
                     <TableCell>
                       <Badge variant="outline" className={attendee.userType === 'guest' 
@@ -339,7 +343,7 @@ export function AttendeesList() {
                   
                   {expandedAttendees.has(attendee.id) && (
                     <TableRow>
-                      <TableCell colSpan={7} className="bg-muted/20 p-0">
+                      <TableCell colSpan={8} className="bg-muted/20 p-0">
                         <div className="px-6 py-4">
                           <h4 className="text-sm font-medium mb-2">Registered Events</h4>
                           <div className="grid gap-3">

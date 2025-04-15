@@ -38,6 +38,7 @@ export function AttendeesList({ attendees }: AttendeesListProps) {
             <TableRow>
               <TableHead className="w-[40px]"></TableHead>
               <TableHead>Attendee</TableHead>
+              <TableHead>Username</TableHead>
               <TableHead>Email</TableHead>
               <TableHead>Type</TableHead>
               <TableHead>Payment Status</TableHead>
@@ -65,6 +66,7 @@ export function AttendeesList({ attendees }: AttendeesListProps) {
                     </div>
                     {attendee.name}
                   </TableCell>
+                  <TableCell>{attendee.userType === "normal" ? `@${attendee.name.toLowerCase().split(' ').join('_')}` : "-"}</TableCell>
                   <TableCell>{attendee.email}</TableCell>
                   <TableCell>
                     <Badge variant="outline" className={attendee.userType === "guest" ? 
@@ -89,7 +91,7 @@ export function AttendeesList({ attendees }: AttendeesListProps) {
                 
                 {expandedAttendees.has(attendee.id) && (
                   <TableRow className="bg-muted/20">
-                    <TableCell colSpan={6} className="py-2 px-4">
+                    <TableCell colSpan={7} className="py-2 px-4">
                       {/* No additional content */}
                     </TableCell>
                   </TableRow>
@@ -98,7 +100,7 @@ export function AttendeesList({ attendees }: AttendeesListProps) {
             ))}
             {attendees.length === 0 && (
               <TableRow>
-                <TableCell colSpan={6} className="text-center py-4 text-muted-foreground">
+                <TableCell colSpan={7} className="text-center py-4 text-muted-foreground">
                   No attendees registered yet
                 </TableCell>
               </TableRow>
