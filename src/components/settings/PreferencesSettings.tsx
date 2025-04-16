@@ -49,7 +49,7 @@ export function PreferencesSettings() {
         <div>
           <h3 className="text-lg font-medium">Appearance</h3>
           <p className="text-sm text-muted-foreground">
-            Customize how the dashboard looks for you.
+            Customise how the dashboard looks for you.
           </p>
         </div>
 
