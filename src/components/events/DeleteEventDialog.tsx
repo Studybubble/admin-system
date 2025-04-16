@@ -25,13 +25,12 @@ export function DeleteEventDialog({
   isOpen,
   setIsOpen,
 }: DeleteEventDialogProps) {
-  const { updateEvent } = useEvents();
+  const { deleteEvent } = useEvents();
   const { toast } = useToast();
 
   const handleDelete = () => {
-    // In a real app, this would make an API call to delete the event
-    // For now, we'll just simulate this by updating the context
-    updateEvent(eventId, { isDeleted: true });
+    // Actually delete the event using the context function
+    deleteEvent(eventId);
     
     // Show a toast notification
     toast({

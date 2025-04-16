@@ -17,7 +17,7 @@ export function EventForm() {
   const isEditMode = !!id;
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { events, updateEvent } = useEvents();
+  const { events, updateEvent, addEvent } = useEvents();
   
   const existingEvent = isEditMode ? events.find(e => e.id === id) : null;
   
@@ -33,6 +33,7 @@ export function EventForm() {
     isFree: true,
     price: 0,
     image: null as File | null,
+    imageUrl: '',
   });
 
   useEffect(() => {
@@ -49,6 +50,7 @@ export function EventForm() {
         isFree: existingEvent.isFree ?? true,
         price: existingEvent.price || 0,
         image: null,
+        imageUrl: existingEvent.imageUrl || '',
       });
     }
   }, [existingEvent]);
@@ -67,7 +69,19 @@ export function EventForm() {
   };
   
   const handleImageChange = (file: File | null) => {
-    setFormData(prev => ({ ...prev, image: file }));
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setFormData(prev => ({ 
+          ...prev, 
+          image: file,
+          imageUrl: reader.result as string
+        }));
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setFormData(prev => ({ ...prev, image: null, imageUrl: '' }));
+    }
   };
   
   const handleSubmit = (e) => {
@@ -83,27 +97,31 @@ export function EventForm() {
     const formattedDate = formData.date.toISOString().split('T')[0];
       
     // Create the updated event data
-    const updatedEventData = {
+    const eventData = {
       title: formData.title,
       description: formData.description,
       date: formattedDate,
       time: formattedTime,
       location: formData.location,
       isFree: formData.isFree,
-      price: !formData.isFree ? Number(formData.price) : undefined,
+      price: !formData.isFree ? Number(formData.price) : 0,
+      imageUrl: formData.imageUrl || '/placeholder.svg',
+      attendees: existingEvent?.attendees || []
     };
     
     setTimeout(() => {
       if (isEditMode && id) {
         // Update existing event
-        updateEvent(id, updatedEventData);
+        updateEvent(id, eventData);
         
         toast({
           title: "Event Updated",
           description: `Successfully updated ${formData.title}`,
         });
       } else {
-        // Create new event logic would go here (not part of this task)
+        // Create new event
+        addEvent(eventData);
+        
         toast({
           title: "Event Created",
           description: `Successfully created ${formData.title}`,
@@ -113,7 +131,7 @@ export function EventForm() {
       setIsSubmitting(false);
       // Show success dialog instead of navigating immediately
       setShowSuccessDialog(true);
-    }, 1000);
+    }, 1000); // Simulated delay for better UX
   };
   
   return (
@@ -146,7 +164,7 @@ export function EventForm() {
           
           <div className="space-y-4">
             <EventImageUpload 
-              existingImageUrl={existingEvent?.imageUrl}
+              existingImageUrl={formData.imageUrl || existingEvent?.imageUrl}
               onImageChange={handleImageChange}
               initialImage={formData.image}
             />

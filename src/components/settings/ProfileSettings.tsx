@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,6 +28,12 @@ export function ProfileSettings() {
         reader.onload = () => {
           setProfileImage(reader.result as string);
           setUploading(false);
+          
+          toast({
+            title: "Image uploaded",
+            description: "Your profile picture has been updated.",
+            duration: 3000,
+          });
         };
         reader.readAsDataURL(file);
       }, 1000);
@@ -35,11 +42,19 @@ export function ProfileSettings() {
 
   const saveChanges = () => {
     // In a real app, this would save to a backend
-    toast({
-      title: "Profile updated",
-      description: "Your profile has been successfully updated.",
-      duration: 3000,
-    });
+    // For now we just update the state and show a toast
+    setUploading(true);
+    
+    // Simulate a delay for the save action
+    setTimeout(() => {
+      setUploading(false);
+      
+      toast({
+        title: "Profile updated",
+        description: "Your profile has been successfully updated.",
+        duration: 3000,
+      });
+    }, 500);
   };
 
   return (
@@ -115,6 +130,7 @@ export function ProfileSettings() {
         <Button 
           onClick={saveChanges} 
           className="bg-primary hover:bg-primary/90 text-primary-foreground"
+          disabled={uploading}
         >
           Save Changes
         </Button>
