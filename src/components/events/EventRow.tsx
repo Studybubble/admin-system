@@ -1,3 +1,4 @@
+
 import { Event } from "@/data/mockData";
 import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
@@ -80,7 +81,7 @@ export function EventRow({ event, isExpanded, onToggleExpand }: EventRowProps) {
           </div>
         </TableCell>
         <TableCell onClick={(e) => e.stopPropagation()}>
-          <Link to={`/events/${event.id}/edit`}>
+          <Link to={`/events/edit/${event.id}`}>
             <Button variant="ghost" size="sm" className="text-blue-600">
               <Pencil className="h-4 w-4" />
             </Button>

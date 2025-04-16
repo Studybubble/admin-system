@@ -1,3 +1,4 @@
+
 import { Event } from "@/data/mockData";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -17,6 +18,7 @@ export function EventCards({ events }: EventCardsProps) {
               src={event.imageUrl}
               alt={event.title}
               className="w-full h-48 object-cover"
+              loading="lazy"
             />
             <Badge className="absolute top-2 right-2 bg-white text-black">
               {event.isFree ? 'Free' : 'Paid'}
@@ -47,7 +49,7 @@ export function EventCards({ events }: EventCardsProps) {
               <Link to={`/events/${event.id}`} className="flex-1">
                 <Button variant="outline" className="w-full">View</Button>
               </Link>
-              <Link to={`/events/${event.id}/edit`} className="flex-1">
+              <Link to={`/events/edit/${event.id}`} className="flex-1">
                 <Button variant="outline" className="w-full">
                   <Edit className="h-4 w-4 mr-1" />
                   Edit
