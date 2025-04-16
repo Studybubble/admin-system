@@ -23,6 +23,7 @@ import {
 import { Link } from "react-router-dom";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { useUser } from "@/context/UserContext";
 
 const navItems = [
   {
@@ -53,6 +54,8 @@ const navItems = [
 ];
 
 export function DashboardSidebar() {
+  const { name } = useUser();
+  
   const handleSignOut = () => {
     console.log("Sign out clicked");
   };
@@ -68,7 +71,7 @@ export function DashboardSidebar() {
               </AvatarFallback>
             </Avatar>
             <div>
-              <p className="text-sm font-medium">Hello, Admin</p>
+              <p className="text-sm font-medium">Hello, {name}</p>
             </div>
             <Button 
               variant="ghost" 

@@ -6,10 +6,12 @@ import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Camera, User } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useUser } from "@/context/UserContext";
 
 export function ProfileSettings() {
   const { toast } = useToast();
-  const [name, setName] = useState("Admin User");
+  const { name: contextName, setName: setContextName } = useUser();
+  const [name, setName] = useState(contextName);
   const [email, setEmail] = useState("admin@example.com");
   const [profileImage, setProfileImage] = useState("");
   const [uploading, setUploading] = useState(false);
@@ -48,6 +50,8 @@ export function ProfileSettings() {
     // Simulate a delay for the save action
     setTimeout(() => {
       setUploading(false);
+      // Update the context with the new name
+      setContextName(name);
       
       toast({
         title: "Profile updated",

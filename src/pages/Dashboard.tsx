@@ -80,7 +80,7 @@ export function Dashboard() {
                 alt="Oxford Skyline Watercolor"
                 className="w-full h-full object-cover"
                 loading="eager"
-                fetchpriority="high"
+                fetchPriority="high"
               />
             )}
           </AspectRatio>
