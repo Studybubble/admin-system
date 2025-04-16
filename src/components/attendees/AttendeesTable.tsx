@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Attendee } from "@/data/mockData";
 import {
@@ -40,7 +39,7 @@ export function AttendeesTable({
   };
 
   return (
-    <div className="overflow-x-auto rounded-md border">
+    <div className="overflow-x-auto rounded-md border bg-white">
       <Table>
         <TableHeader>
           <TableRow>
