@@ -27,7 +27,7 @@ export function EventRow({ event, isExpanded, onToggleExpand }: EventRowProps) {
   return (
     <>
       <div 
-        className={`grid grid-cols-9 px-4 py-3 items-center cursor-pointer rounded-md shadow-sm border border-gray-100 
+        className={`grid grid-cols-9 px-4 py-3 items-center cursor-pointer 
           ${isExpanded ? 'bg-purple-50' : 'bg-white hover:bg-gray-50'} 
           ${isEventFullStatus ? 'bg-purple-100' : ''}`}
         onClick={onToggleExpand}
