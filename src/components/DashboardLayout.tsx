@@ -2,6 +2,7 @@
 import { ReactNode } from 'react';
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { DashboardSidebar } from '@/components/DashboardSidebar';
+import { RoleSwitcher } from './RoleSwitcher';
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -24,6 +25,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
             {children}
           </div>
         </main>
+        <RoleSwitcher />
       </div>
     </SidebarProvider>
   );
