@@ -4,7 +4,7 @@ import { useUser } from "@/context/UserContext";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
-export function RoleSwitcher() {
+export function RoleSwitcher({ className = "" }) {
   const { role, setRole, setName } = useUser();
   const navigate = useNavigate();
 
@@ -21,7 +21,7 @@ export function RoleSwitcher() {
   };
 
   return (
-    <div className="fixed bottom-4 right-4 bg-white shadow-md rounded-md p-2 border z-50">
+    <div className={`fixed z-50 bg-white shadow-md rounded-md p-2 border ${className}`}>
       <div className="flex gap-2">
         <Button 
           variant={role === "admin" ? "default" : "outline"} 

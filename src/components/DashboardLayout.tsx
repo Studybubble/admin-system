@@ -25,7 +25,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
             {children}
           </div>
         </main>
-        <RoleSwitcher />
+        <RoleSwitcher className="bottom-4 right-4" />
       </div>
     </SidebarProvider>
   );
