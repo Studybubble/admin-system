@@ -46,6 +46,11 @@
     --light-purple-50: 270 100% 97%;
     --light-purple-100: 270 80% 95%;
     --light-purple-200: 270 70% 90%;
+
+    --baby-blue-50: #D3E4FD;
+    --baby-blue-100: #E6F2FF;
+    --baby-green-50: #F2FCE2;
+    --baby-green-100: #E8F5E9;
   }
 
   .dark {

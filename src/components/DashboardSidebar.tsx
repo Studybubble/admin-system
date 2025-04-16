@@ -1,4 +1,3 @@
-
 import { 
   LayoutDashboard, 
   CalendarDays, 
@@ -92,7 +91,13 @@ export function DashboardSidebar() {
   };
 
   return (
-    <Sidebar className="bg-gradient-to-b from-purple-50 via-purple-100 to-purple-200">
+    <Sidebar 
+      className={
+        role === "user" 
+          ? "bg-gradient-to-b from-baby-blue-50 via-baby-green-50 to-baby-blue-100" 
+          : "bg-gradient-to-b from-purple-50 via-purple-100 to-purple-200"
+      }
+    >
       <SidebarHeader>
         <div className="flex items-center justify-start px-4 py-2">
           <div className="flex items-center gap-2">
@@ -116,7 +121,13 @@ export function DashboardSidebar() {
           </div>
         </div>
       </SidebarHeader>
-      <SidebarContent className="bg-gradient-to-b from-purple-50 via-purple-100 to-purple-200">
+      <SidebarContent 
+        className={
+          role === "user" 
+            ? "bg-gradient-to-b from-baby-blue-50 via-baby-green-50 to-baby-blue-100" 
+            : "bg-gradient-to-b from-purple-50 via-purple-100 to-purple-200"
+        }
+      >
         <SidebarGroup>
           <SidebarGroupLabel>{role === "admin" ? "Admin Menu" : "User Menu"}</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -135,9 +146,15 @@ export function DashboardSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="bg-gradient-to-b from-purple-50 via-purple-100 to-purple-200">
-        <div className="px-4 py-2 text-xs text-purple-700">
-          Events {role === "admin" ? "Admin" : "User"} Dashboard v1.0
+      <SidebarFooter 
+        className={
+          role === "user" 
+            ? "bg-gradient-to-b from-baby-blue-50 via-baby-green-50 to-baby-blue-100 text-blue-800" 
+            : "bg-gradient-to-b from-purple-50 via-purple-100 to-purple-200 text-purple-700"
+        }
+      >
+        <div className="px-4 py-2 text-xs">
+          User Dashboard v1.0
         </div>
       </SidebarFooter>
     </Sidebar>
