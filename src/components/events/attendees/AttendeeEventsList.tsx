@@ -1,15 +1,17 @@
 
 import React from 'react';
-import { Event } from "@/data/mockData";
 import { Badge } from "@/components/ui/badge";
 import { Calendar } from "lucide-react";
+import { useEvents } from "@/context/EventsContext";
 
 interface AttendeeEventsListProps {
-  events: Event[];
   attendeeId: string;
 }
 
-export function AttendeeEventsList({ events, attendeeId }: AttendeeEventsListProps) {
+export function AttendeeEventsList({ attendeeId }: AttendeeEventsListProps) {
+  // Use the events context to always get fresh data
+  const { events } = useEvents();
+  
   // Find events for this attendee
   const getEventsForAttendee = () => {
     if (!events || events.length === 0) return [];
@@ -35,7 +37,7 @@ export function AttendeeEventsList({ events, attendeeId }: AttendeeEventsListPro
               </span>
               {!event.isFree && (
                 <Badge variant="outline" className="ml-auto bg-amber-50 text-amber-700 border-amber-200">
-                  ${event.price}
+                  £{event.price?.toFixed(2) || "0.00"}
                 </Badge>
               )}
               {event.isFree && (
@@ -46,7 +48,7 @@ export function AttendeeEventsList({ events, attendeeId }: AttendeeEventsListPro
             </div>
           ))
         ) : (
-          <p className="text-sm text-muted-foreground">See Attendee list for event details</p>
+          <p className="text-sm text-muted-foreground">No registered events found</p>
         )}
       </div>
     </div>

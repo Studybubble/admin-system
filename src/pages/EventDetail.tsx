@@ -1,5 +1,5 @@
+
 import { DashboardLayout } from '@/components/DashboardLayout';
-import { events } from '@/data/mockData';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -24,9 +24,11 @@ import {
 import { Link, useParams } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useEvents } from '@/context/EventsContext';
 
 export function EventDetail() {
   const { id } = useParams<{ id: string }>();
+  const { events } = useEvents();
   const event = events.find(e => e.id === id);
   
   if (!event) {
@@ -62,7 +64,7 @@ export function EventDetail() {
           </div>
         </div>
         <div className="flex gap-2">
-          <Link to={`/events/${event.id}/edit`}>
+          <Link to={`/events/edit/${event.id}`}>
             <Button variant="outline">
               <Edit className="h-4 w-4 mr-2" />
               Edit Event
