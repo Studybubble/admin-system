@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Attendee } from "@/data/mockData";
+import { Attendee, Event } from "@/data/mockData";
 import {
   Table,
   TableBody,
@@ -14,9 +14,10 @@ import { AttendeeDetails } from './attendees/AttendeeDetails';
 
 interface AttendeesListProps {
   attendees: Attendee[];
+  events?: Event[];
 }
 
-export function AttendeesList({ attendees }: AttendeesListProps) {
+export function AttendeesList({ attendees, events = [] }: AttendeesListProps) {
   const [expandedAttendees, setExpandedAttendees] = useState<Set<string>>(new Set());
   
   const toggleAttendeeExpansion = (attendeeId: string) => {
@@ -55,7 +56,7 @@ export function AttendeesList({ attendees }: AttendeesListProps) {
                 />
                 
                 {expandedAttendees.has(attendee.id) && (
-                  <AttendeeDetails attendee={attendee} />
+                  <AttendeeDetails attendee={attendee} events={events} />
                 )}
               </React.Fragment>
             ))}
