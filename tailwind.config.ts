@@ -71,14 +71,6 @@ export default {
 					500: '#7E69AB',
 					600: '#6E59A5',
 					700: '#1A1F2C',
-				},
-				'baby-blue': {
-					50: '#D3E4FD',
-					100: '#E6F2FF',
-				},
-				'baby-green': {
-					50: '#F2FCE2',
-					100: '#E8F5E9',
 				}
 			},
 			borderRadius: {
