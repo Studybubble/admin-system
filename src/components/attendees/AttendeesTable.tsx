@@ -126,7 +126,9 @@ export function AttendeesTable({
                   </TableCell>
                   <TableCell className="flex items-center gap-3">
                     <Avatar className="h-8 w-8">
-                      <AvatarFallback />
+                      <AvatarFallback className="bg-purple-50 text-purple-700">
+                        {attendee.name.charAt(0).toUpperCase()}
+                      </AvatarFallback>
                     </Avatar>
                     <span className="font-medium">{attendee.name}</span>
                   </TableCell>
