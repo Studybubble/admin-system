@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { events } from '@/data/mockData';
 import { CalendarDays, Users, Ticket, Clock } from 'lucide-react';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
+import { useEffect, useState } from 'react';
 
 export function Dashboard() {
   // Calculate summary statistics
@@ -11,6 +12,16 @@ export function Dashboard() {
   const totalAttendees = events.reduce((sum, event) => sum + event.attendees.length, 0);
   const upcomingEvents = events.filter(event => new Date(event.date) > new Date()).length;
   
+  // Add state for image loading
+  const [imageLoaded, setImageLoaded] = useState(false);
+  
+  // Pre-load the image
+  useEffect(() => {
+    const img = new Image();
+    img.src = "/lovable-uploads/bee12fff-e4d9-4656-bd23-674e34d8c978.png";
+    img.onload = () => setImageLoaded(true);
+  }, []);
+
   return (
     <DashboardLayout>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -59,11 +70,19 @@ export function Dashboard() {
       <div className="mt-6">
         <Card>
           <AspectRatio ratio={16/6}>
-            <img 
-              src="/lovable-uploads/bee12fff-e4d9-4656-bd23-674e34d8c978.png"
-              alt="Oxford Skyline Watercolor"
-              className="w-full h-full object-cover"
-            />
+            {!imageLoaded ? (
+              <div className="w-full h-full bg-slate-200 animate-pulse flex items-center justify-center text-slate-400">
+                Loading image...
+              </div>
+            ) : (
+              <img 
+                src="/lovable-uploads/bee12fff-e4d9-4656-bd23-674e34d8c978.png"
+                alt="Oxford Skyline Watercolor"
+                className="w-full h-full object-cover"
+                loading="eager"
+                fetchpriority="high"
+              />
+            )}
           </AspectRatio>
         </Card>
       </div>
@@ -72,4 +91,3 @@ export function Dashboard() {
 }
 
 export default Dashboard;
-
