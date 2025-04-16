@@ -9,10 +9,13 @@ interface EventsContextType {
   deleteEvent: (id: string) => void;
 }
 
+// Define a consistent type for our events
+type EventWithMaxAttendees = Event & { maxAttendees?: number };
+
 const EventsContext = createContext<EventsContextType | undefined>(undefined);
 
 export function EventsProvider({ children }: { children: ReactNode }) {
-  const [events, setEvents] = useState(initialEvents.map(event => ({
+  const [events, setEvents] = useState<EventWithMaxAttendees[]>(initialEvents.map(event => ({
     ...event,
     maxAttendees: event.id === "1" ? 50 : (event.id === "2" ? 30 : (event.id === "3" ? 25 : undefined))
   })));
@@ -33,9 +36,9 @@ export function EventsProvider({ children }: { children: ReactNode }) {
       id: newId,
       ...newEvent,
       attendees: newEvent.attendees || []
-    };
+    } as EventWithMaxAttendees;
     
-    setEvents(currentEvents => [...currentEvents, eventToAdd as Event & { maxAttendees?: number }]);
+    setEvents(currentEvents => [...currentEvents, eventToAdd]);
     
     return newId;
   };
