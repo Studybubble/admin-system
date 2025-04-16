@@ -2,7 +2,6 @@
 import React from 'react';
 import { Attendee, Event } from "@/data/mockData";
 import { Badge } from "@/components/ui/badge";
-import { TableCell, TableRow } from "@/components/ui/table";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
@@ -14,29 +13,29 @@ interface AttendeeRowProps {
 
 export function AttendeeRow({ attendee, isExpanded, onToggleExpand }: AttendeeRowProps) {
   return (
-    <TableRow 
-      className="cursor-pointer hover:bg-muted/50"
+    <div 
+      className="grid grid-cols-7 px-4 py-2 items-center cursor-pointer rounded-md bg-white shadow-sm border border-gray-100 hover:bg-gray-50"
       onClick={onToggleExpand}
     >
-      <TableCell className="p-2 w-8">
+      <div className="w-8">
         {isExpanded ? (
           <ChevronDown className="h-4 w-4 text-muted-foreground" />
         ) : (
           <ChevronRight className="h-4 w-4 text-muted-foreground" />
         )}
-      </TableCell>
-      <TableCell className="font-medium flex items-center gap-3">
+      </div>
+      <div className="font-medium flex items-center gap-3">
         <Avatar className="h-8 w-8">
           <AvatarFallback />
         </Avatar>
         {attendee.name}
-      </TableCell>
-      <TableCell>
+      </div>
+      <div>
         {attendee.userType === "normal" ? 
           `@${attendee.name.toLowerCase().split(' ').join('_')}` : "-"}
-      </TableCell>
-      <TableCell>{attendee.email}</TableCell>
-      <TableCell>
+      </div>
+      <div>{attendee.email}</div>
+      <div>
         <Badge 
           variant="outline" 
           className={attendee.userType === "guest" ? 
@@ -45,8 +44,8 @@ export function AttendeeRow({ attendee, isExpanded, onToggleExpand }: AttendeeRo
         >
           {attendee.userType === "guest" ? "Guest" : "Normal"}
         </Badge>
-      </TableCell>
-      <TableCell>
+      </div>
+      <div>
         {attendee.paymentStatus === "free" ? (
           <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
             Free
@@ -56,8 +55,8 @@ export function AttendeeRow({ attendee, isExpanded, onToggleExpand }: AttendeeRo
             Paid
           </Badge>
         )}
-      </TableCell>
-      <TableCell>{new Date(attendee.registeredAt).toLocaleDateString()}</TableCell>
-    </TableRow>
+      </div>
+      <div>{new Date(attendee.registeredAt).toLocaleDateString()}</div>
+    </div>
   );
 }

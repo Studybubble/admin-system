@@ -1,3 +1,4 @@
+
 import { Event } from "@/data/mockData";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -9,9 +10,9 @@ interface EventCardsProps {
 
 export function EventCards({ events }: EventCardsProps) {
   return (
-    <div className="hidden grid gap-6 md:grid-cols-2 lg:grid-cols-3 mt-8">
+    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mt-8">
       {events.map((event) => (
-        <div key={event.id} className="border rounded-lg overflow-hidden bg-card">
+        <div key={event.id} className="border rounded-lg overflow-hidden bg-card shadow-sm">
           <div className="relative">
             <img
               src={event.imageUrl}
