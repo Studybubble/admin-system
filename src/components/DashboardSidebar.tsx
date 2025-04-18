@@ -61,22 +61,22 @@ export function DashboardSidebar() {
   };
 
   return (
-    <Sidebar className="bg-gradient-to-b from-purple-50 via-purple-100 to-purple-200">
+    <Sidebar className="bg-white border-r border-[#e5e9ef]">
       <SidebarHeader>
         <div className="flex items-center justify-start px-4 py-2">
           <div className="flex items-center gap-2">
             <Avatar className="h-8 w-8 mr-2">
-              <AvatarFallback className="bg-purple-200 text-purple-700">
+              <AvatarFallback className="bg-blue-100 text-blue-700">
                 <User className="h-5 w-5" />
               </AvatarFallback>
             </Avatar>
             <div>
-              <p className="text-sm font-medium">Hello, {name}</p>
+              <p className="text-sm font-medium text-[#1a2b4b]">Hello, {name}</p>
             </div>
             <Button 
               variant="ghost" 
               size="icon" 
-              className="text-purple-500 hover:bg-purple-100 ml-auto"
+              className="text-blue-500 hover:bg-blue-50 ml-auto"
               onClick={handleSignOut}
             >
               <LogOut className="h-4 w-4" />
@@ -84,16 +84,16 @@ export function DashboardSidebar() {
           </div>
         </div>
       </SidebarHeader>
-      <SidebarContent className="bg-gradient-to-b from-purple-50 via-purple-100 to-purple-200">
+      <SidebarContent className="bg-white">
         <SidebarGroup>
-          <SidebarGroupLabel>Main Menu</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-[#6b7280]">Main Menu</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {navItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <Link to={item.url}>
-                      <item.icon className="h-5 w-5" />
+                    <Link to={item.url} className="text-[#1a2b4b] hover:bg-blue-50">
+                      <item.icon className="h-5 w-5 text-blue-500" />
                       <span>{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
@@ -103,8 +103,8 @@ export function DashboardSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="bg-gradient-to-b from-purple-50 via-purple-100 to-purple-200">
-        <div className="px-4 py-2 text-xs text-purple-700">
+      <SidebarFooter className="bg-white border-t border-[#e5e9ef]">
+        <div className="px-4 py-2 text-xs text-[#6b7280]">
           Events Admin Dashboard v1.0
         </div>
       </SidebarFooter>
