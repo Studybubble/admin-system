@@ -2,6 +2,7 @@
 import { ReactNode } from 'react';
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { DashboardSidebar } from '@/components/DashboardSidebar';
+import { RoleSwitcher } from './RoleSwitcher';
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -10,22 +11,21 @@ interface DashboardLayoutProps {
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-[#f8fafd]">
+      <div className="min-h-screen flex w-full bg-gray-50">
         <DashboardSidebar />
         <main className="flex-1 overflow-auto">
           <div className="container p-4 md:p-6">
             <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-4">
-                <SidebarTrigger />
-                <h1 className="text-2xl font-bold text-[#1a2b4b]">
-                  Event Dashboard
-                </h1>
-              </div>
+              <SidebarTrigger />
+              <h1 className="text-2xl font-bold text-black">
+                Event Management Dashboard
+              </h1>
               <div></div>
             </div>
             {children}
           </div>
         </main>
+        <RoleSwitcher className="bottom-4 right-4" />
       </div>
     </SidebarProvider>
   );

@@ -1,4 +1,3 @@
-
 import { 
   LayoutDashboard, 
   CalendarDays, 
@@ -6,7 +5,9 @@ import {
   Plus, 
   Settings,
   LogOut,
-  User
+  User,
+  Wallet,
+  Search
 } from "lucide-react";
 import {
   Sidebar,
@@ -25,7 +26,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@/context/UserContext";
 
-const navItems = [
+const adminNavItems = [
   {
     title: "Dashboard",
     url: "/",
@@ -53,30 +54,66 @@ const navItems = [
   },
 ];
 
+const userNavItems = [
+  {
+    title: "Dashboard",
+    url: "/user",
+    icon: LayoutDashboard,
+  },
+  {
+    title: "Discover Events",
+    url: "/user/discover",
+    icon: Search,
+  },
+  {
+    title: "My Events",
+    url: "/user/events",
+    icon: CalendarDays,
+  },
+  {
+    title: "My Wallet",
+    url: "/user/wallet",
+    icon: Wallet,
+  },
+  {
+    title: "Settings",
+    url: "/user/settings",
+    icon: Settings,
+  },
+];
+
 export function DashboardSidebar() {
-  const { name } = useUser();
+  const { name, role } = useUser();
+  const navItems = role === "admin" ? adminNavItems : userNavItems;
   
   const handleSignOut = () => {
     console.log("Sign out clicked");
   };
 
   return (
-    <Sidebar className="bg-white border-r border-[#e5e9ef]">
+    <Sidebar 
+      className={
+        role === "user" 
+          ? "bg-gradient-to-b from-baby-blue-50 via-baby-green-50 to-baby-blue-100" 
+          : "bg-gradient-to-b from-purple-50 via-purple-100 to-purple-200"
+      }
+    >
       <SidebarHeader>
         <div className="flex items-center justify-start px-4 py-2">
           <div className="flex items-center gap-2">
             <Avatar className="h-8 w-8 mr-2">
-              <AvatarFallback className="bg-blue-100 text-blue-700">
+              <AvatarFallback className="bg-purple-200 text-purple-700">
                 <User className="h-5 w-5" />
               </AvatarFallback>
             </Avatar>
             <div>
-              <p className="text-sm font-medium text-[#1a2b4b]">Hello, {name}</p>
+              <p className="text-sm font-medium">Hello, {name}</p>
+              <p className="text-xs text-muted-foreground capitalize">{role} Account</p>
             </div>
             <Button 
               variant="ghost" 
               size="icon" 
-              className="text-blue-500 hover:bg-blue-50 ml-auto"
+              className="text-purple-500 hover:bg-purple-100 ml-auto"
               onClick={handleSignOut}
             >
               <LogOut className="h-4 w-4" />
@@ -84,16 +121,22 @@ export function DashboardSidebar() {
           </div>
         </div>
       </SidebarHeader>
-      <SidebarContent className="bg-white">
+      <SidebarContent 
+        className={
+          role === "user" 
+            ? "bg-gradient-to-b from-baby-blue-50 via-baby-green-50 to-baby-blue-100" 
+            : "bg-gradient-to-b from-purple-50 via-purple-100 to-purple-200"
+        }
+      >
         <SidebarGroup>
-          <SidebarGroupLabel className="text-[#6b7280]">Main Menu</SidebarGroupLabel>
+          <SidebarGroupLabel>{role === "admin" ? "Admin Menu" : "User Menu"}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {navItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <Link to={item.url} className="text-[#1a2b4b] hover:bg-blue-50">
-                      <item.icon className="h-5 w-5 text-blue-500" />
+                    <Link to={item.url}>
+                      <item.icon className="h-5 w-5" />
                       <span>{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
@@ -103,9 +146,15 @@ export function DashboardSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="bg-white border-t border-[#e5e9ef]">
-        <div className="px-4 py-2 text-xs text-[#6b7280]">
-          Events Admin Dashboard v1.0
+      <SidebarFooter 
+        className={
+          role === "user" 
+            ? "bg-gradient-to-b from-baby-blue-50 via-baby-green-50 to-baby-blue-100 text-blue-800" 
+            : "bg-gradient-to-b from-purple-50 via-purple-100 to-purple-200 text-purple-700"
+        }
+      >
+        <div className="px-4 py-2 text-xs">
+          User Dashboard v1.0
         </div>
       </SidebarFooter>
     </Sidebar>

@@ -10,6 +10,9 @@ import NotFound from "@/pages/NotFound";
 import { Toaster } from "@/components/ui/sonner";
 import { EventsProvider } from "@/context/EventsContext";
 import { UserProvider } from "@/context/UserContext";
+import { UserDashboard } from "@/components/user/UserDashboard";
+import { UserWallet } from "@/components/user/UserWallet";
+import { UserSettings } from "@/components/user/UserSettings";
 
 function App() {
   return (
@@ -17,6 +20,7 @@ function App() {
       <EventsProvider>
         <BrowserRouter>
           <Routes>
+            {/* Admin Routes */}
             <Route path="/" element={<Dashboard />} />
             <Route path="/events" element={<EventsList />} />
             <Route path="/events/:id" element={<EventDetail />} />
@@ -24,6 +28,13 @@ function App() {
             <Route path="/events/edit/:id" element={<EventForm />} />
             <Route path="/attendees" element={<AttendeesList />} />
             <Route path="/settings" element={<Settings />} />
+            
+            {/* User Routes */}
+            <Route path="/user" element={<UserDashboard />} />
+            <Route path="/user/wallet" element={<UserWallet />} />
+            <Route path="/user/settings" element={<UserSettings />} />
+            <Route path="/user/events/:id" element={<EventDetail />} />
+            
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
