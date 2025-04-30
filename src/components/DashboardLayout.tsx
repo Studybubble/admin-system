@@ -3,7 +3,6 @@ import { ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { DashboardSidebar } from '@/components/DashboardSidebar';
-import { RoleSwitcher } from './RoleSwitcher';
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -33,7 +32,6 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
             {children}
           </div>
         </main>
-        <RoleSwitcher className="bottom-4 right-4" />
       </div>
     </SidebarProvider>
   );
