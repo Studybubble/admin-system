@@ -18,8 +18,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarHeader,
-  SidebarFooter
+  SidebarHeader
 } from "@/components/ui/sidebar";
 import { Link } from "react-router-dom";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -146,15 +145,6 @@ export function DashboardSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter 
-        className={
-          role === "user" 
-            ? "bg-gradient-to-b from-baby-blue-50 via-baby-green-50 to-baby-blue-100 text-blue-800" 
-            : "bg-gradient-to-b from-purple-50 via-purple-100 to-purple-200 text-purple-700"
-        }
-      >
-        {/* Empty footer - removed "User Dashboard v1.0" text */}
-      </SidebarFooter>
     </Sidebar>
   );
 }
