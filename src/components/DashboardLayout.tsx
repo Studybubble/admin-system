@@ -1,5 +1,6 @@
 
 import { ReactNode } from 'react';
+import { useLocation } from 'react-router-dom';
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { DashboardSidebar } from '@/components/DashboardSidebar';
 import { RoleSwitcher } from './RoleSwitcher';
@@ -9,6 +10,9 @@ interface DashboardLayoutProps {
 }
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
+  const location = useLocation();
+  const isDashboard = location.pathname === "/" || location.pathname === "/dashboard";
+
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gray-50">
@@ -17,9 +21,13 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           <div className="container p-4 md:p-6">
             <div className="flex items-center justify-between mb-6">
               <SidebarTrigger />
-              <h1 className="text-2xl font-bold text-black">
-                Event Management Dashboard
-              </h1>
+              {isDashboard ? (
+                <h1 className="text-2xl font-bold text-black">
+                  Event Management Dashboard
+                </h1>
+              ) : (
+                <div></div>
+              )}
               <div></div>
             </div>
             {children}
