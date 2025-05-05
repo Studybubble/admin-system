@@ -8,7 +8,7 @@ interface EventBasicInfoProps {
   title: string;
   description: string;
   location: string;
-  capacity?: number | '';
+  capacity: string;  // Changed from 'number | ""' to 'string' to match the form state
   onInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
