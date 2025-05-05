@@ -2,16 +2,17 @@
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { MapPin } from 'lucide-react';
+import { MapPin, Users } from 'lucide-react';
 
 interface EventBasicInfoProps {
   title: string;
   description: string;
   location: string;
+  capacity?: number | '';
   onInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
-export function EventBasicInfo({ title, description, location, onInputChange }: EventBasicInfoProps) {
+export function EventBasicInfo({ title, description, location, capacity, onInputChange }: EventBasicInfoProps) {
   return (
     <div className="space-y-4">
       <div className="space-y-2">
@@ -51,6 +52,23 @@ export function EventBasicInfo({ title, description, location, onInputChange }: 
             placeholder="Enter event location"
             className="pl-8"
             required
+          />
+        </div>
+      </div>
+      
+      <div className="space-y-2">
+        <Label htmlFor="capacity">Attendee Capacity (Optional)</Label>
+        <div className="relative">
+          <Users className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Input
+            id="capacity"
+            name="capacity"
+            type="number"
+            min="1"
+            value={capacity}
+            onChange={onInputChange}
+            placeholder="Maximum number of attendees"
+            className="pl-8"
           />
         </div>
       </div>

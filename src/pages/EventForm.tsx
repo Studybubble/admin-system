@@ -34,6 +34,7 @@ export function EventForm() {
     price: 0,
     image: null as File | null,
     imageUrl: '',
+    capacity: '',
   });
 
   useEffect(() => {
@@ -51,6 +52,7 @@ export function EventForm() {
         price: existingEvent.price || 0,
         image: null,
         imageUrl: existingEvent.imageUrl || '',
+        capacity: existingEvent.maxAttendees ? existingEvent.maxAttendees.toString() : '',
       });
     }
   }, [existingEvent]);
@@ -106,7 +108,8 @@ export function EventForm() {
       isFree: formData.isFree,
       price: !formData.isFree ? Number(formData.price) : 0,
       imageUrl: formData.imageUrl || '/placeholder.svg',
-      attendees: existingEvent?.attendees || []
+      attendees: existingEvent?.attendees || [],
+      maxAttendees: formData.capacity ? parseInt(formData.capacity, 10) : undefined,
     };
     
     setTimeout(() => {
@@ -150,6 +153,7 @@ export function EventForm() {
               title={formData.title}
               description={formData.description}
               location={formData.location}
+              capacity={formData.capacity}
               onInputChange={handleChange}
             />
             
