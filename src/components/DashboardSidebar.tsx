@@ -92,7 +92,7 @@ export function DashboardSidebar() {
 
   return (
     <Sidebar className="bg-purple-200">
-      <SidebarHeader className="bg-purple-200">
+      <SidebarHeader>
         <div className="flex items-center justify-start px-4 py-2">
           <div className="flex items-center gap-2">
             <Avatar className="h-8 w-8 mr-2">
