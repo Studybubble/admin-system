@@ -51,6 +51,10 @@
     --baby-blue-100: #E6F2FF;
     --baby-green-50: #F2FCE2;
     --baby-green-100: #E8F5E9;
+
+    --light-navy-blue-50: 210 75% 96%;
+    --light-navy-blue-100: 210 75% 92%;
+    --light-navy-blue-200: 210 75% 85%;
   }
 
   .dark {
