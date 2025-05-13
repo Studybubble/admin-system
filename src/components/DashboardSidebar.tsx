@@ -91,12 +91,12 @@ export function DashboardSidebar() {
   };
 
   return (
-    <Sidebar className="bg-blue-100">
-      <SidebarHeader className="bg-blue-100">
+    <Sidebar className="bg-purple-100">
+      <SidebarHeader className="bg-purple-100">
         <div className="flex items-center justify-start px-4 py-2">
           <div className="flex items-center gap-2">
             <Avatar className="h-8 w-8 mr-2">
-              <AvatarFallback className="bg-blue-100 text-blue-700">
+              <AvatarFallback className="bg-purple-100 text-purple-700">
                 <User className="h-5 w-5" />
               </AvatarFallback>
             </Avatar>
@@ -107,7 +107,7 @@ export function DashboardSidebar() {
             <Button 
               variant="ghost" 
               size="icon" 
-              className="text-blue-500 hover:bg-blue-200 ml-auto"
+              className="text-purple-500 hover:bg-purple-200 ml-auto"
               onClick={handleSignOut}
             >
               <LogOut className="h-4 w-4" />
@@ -115,7 +115,7 @@ export function DashboardSidebar() {
           </div>
         </div>
       </SidebarHeader>
-      <SidebarContent className="bg-blue-100">
+      <SidebarContent className="bg-purple-100">
         <SidebarGroup>
           <SidebarGroupLabel>{role === "admin" ? "Admin Menu" : "User Menu"}</SidebarGroupLabel>
           <SidebarGroupContent>
